@@ -75,6 +75,7 @@ export class TestComponent {
 
   onStartTest() {
     this.isReady = true;
+    this.audioPlayer.nativeElement.play();
     this.startTimer();
     setTimeout(() => {
       this.currentQuiz.isReadOnly = true;

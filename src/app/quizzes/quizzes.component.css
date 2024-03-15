@@ -9,18 +9,17 @@
 
 .question-type-container {
   display: flex;
-  margin: 20px 0;
 }
 
 .card {
-  margin: 20px;
+  margin: 0 20px 20px 0;
   cursor: pointer;
 }
 
 .question-type-item {
-  width: 150px;
-  height: 20px;
-  margin: 10px 20px;
+  width: 120px;
+  text-align: center;
+  margin: 10px 0;
 }
 
 .actions {
@@ -28,10 +27,7 @@
   flex-direction: column;
 }
 
-.question-group {
-  margin: 20px;
-}
-
 .question {
   display: flex;
+  margin-top: 30px;
 }

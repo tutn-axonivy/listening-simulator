@@ -78,7 +78,6 @@ export class QuizzesComponent implements OnInit {
         };
         break;
       case 1:
-        this.currentQuiz.questions.push({ ...this.currentQuestion });
         this.currentQuestion = {
           title: '',
           type: questionType,

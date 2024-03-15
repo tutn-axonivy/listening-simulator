@@ -15,7 +15,7 @@
     </mat-form-field>
   </div>
 
-   <div class="form-group">
+  <div class="form-group">
     <mat-form-field>
       <mat-label>Audio Name</mat-label>
       <input
@@ -61,14 +61,6 @@
         <div class="actions">
           <button
             mat-button
-            type="submit"
-            class="btn btn-primary"
-            (click)="saveQuestion()"
-          >
-            ✅
-          </button>
-          <button
-            mat-button
             type="button"
             class="btn btn-danger"
             (click)="removeQuestion(i)"
@@ -83,14 +75,6 @@
         [question]="question"
         [isEditting]="true"
       ></app-short-answer>
-      <button
-        mat-button
-        type="submit"
-        class="btn btn-primary"
-        (click)="saveQuestion()"
-      >
-        ✅
-      </button>
       <button
         mat-button
         type="button"
@@ -116,5 +100,5 @@
     </mat-card>
   </div>
 
-  <button mat-button color="primary" (click)="saveQuiz()">Save and Quit</button>
+  <button mat-raised-button color="primary" (click)="saveQuiz()">Save and Quit</button>
 </div>

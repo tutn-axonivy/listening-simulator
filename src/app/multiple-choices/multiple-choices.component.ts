@@ -64,6 +64,10 @@ export class MultipleChoicesComponent {
     if (this.isReadOnly) {
       return;
     }
+    this.question.choices.forEach((choice: any) => {
+      choice.isSelected = false;
+    });
+
     this.question.choices[index].isSelected =
       !this.question.choices[index].isSelected;
   }

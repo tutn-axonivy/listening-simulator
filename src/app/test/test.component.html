@@ -24,17 +24,9 @@
         <source [src]="audioUrl" type="audio/mp3" />
       </audio>
     </div>
+    <div class="backdrop"></div>
   </div>
-  
-  <button
-    [disabled]="currentQuiz.studentName === ''"
-    mat-raised-button
-    color="primary"
-    (click)="onStartTest()"
-    style="margin-top: 30px"
-  >
-    Start
-  </button>
+
   @if (isReady) {
 
   <div class="question-group">
@@ -55,13 +47,25 @@
     </div>
   </div>
   <button
-    [disabled]="currentQuiz.isReadOnly"
+    [disabled]="
+      currentQuiz.studentName === null || currentQuiz.studentName === ''
+    "
     mat-raised-button
     color="primary"
     (click)="submit()"
     style="margin-top: 30px"
   >
     Submit
+  </button>
+  } @else {
+  <button
+    [disabled]="currentQuiz.studentName === ''"
+    mat-raised-button
+    color="primary"
+    (click)="onStartTest()"
+    style="margin-top: 30px"
+  >
+    Start
   </button>
   }
 </div>
