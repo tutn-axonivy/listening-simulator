@@ -30,7 +30,7 @@ import { QuizService } from './quizzes.service';
   styleUrl: './quizzes.component.css',
 })
 export class QuizzesComponent implements OnInit {
-  audioName: string = '';
+  fileName: string = '';
   currentQuiz: any = {
     name: '',
     timeout: null,
