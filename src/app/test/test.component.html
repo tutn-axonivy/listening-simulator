@@ -17,6 +17,15 @@
   <div class="form-group">
     <h2>{{ minutes }}:{{ seconds | number : "2.0" }}</h2>
   </div>
+
+  <div class="form-group">
+    <div class="audio">
+      <audio controls #audioPlayer>
+        <source [src]="audioUrl" type="audio/mp3" />
+      </audio>
+    </div>
+  </div>
+  
   <button
     [disabled]="currentQuiz.studentName === ''"
     mat-raised-button
