@@ -1,0 +1,28 @@
+.container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-button {
+  text-align: center;
+  margin-left: 10px;
+  line-height: 24px;
+}
+
+.quizzes {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  margin: 10px 0;
+  width: 200px;
+}
+
+.actions {
+  margin-top: 10px;
+}

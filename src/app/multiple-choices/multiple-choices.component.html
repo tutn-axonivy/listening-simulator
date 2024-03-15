@@ -1,0 +1,66 @@
+<form>
+  <div class="question-group">
+    <div class="form-group">
+      @if (isEditting) {
+      <angular-editor
+        name="questionTitle"
+        id="editor1"
+        [(ngModel)]="question.title"
+      ></angular-editor>
+      } @else {
+      <span [innerHTML]="question.title"></span>
+      }
+    </div>
+
+    <div
+      class="choice-group"
+      *ngFor="let choice of question.choices; let i = index"
+    >
+      <div class="choice">
+        <div
+          class="choice-index"
+          [ngClass]="{ selected: choice.isSelected, readonly: isReadOnly }"
+          (click)="onSelectChoice(i)"
+        >
+          <p>{{ CHOICE_INDEX[i] }}</p>
+        </div>
+        <div class="form-group">
+          @if (isEditting) {
+          <mat-form-field>
+            <input
+              [disabled]="isReadOnly"
+              matInput
+              name="choiceContent"
+              type="text"
+              class="form-control"
+              id="choiceContent"
+              [(ngModel)]="choice.content"
+            />
+          </mat-form-field>
+          <button
+            mat-button
+            type="button"
+            class="btn btn-danger"
+            (click)="removeChoice(i)"
+          >
+            ❌
+          </button>
+          } @else {
+          <span class="question-text">{{ choice.content }}</span>
+
+          }
+        </div>
+      </div>
+    </div>
+
+    <button
+      *ngIf="isEditting"
+      mat-button
+      type="button"
+      class="btn btn-primary"
+      (click)="addChoice()"
+    >
+      ➕
+    </button>
+  </div>
+</form>

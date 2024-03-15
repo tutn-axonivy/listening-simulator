@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="form-group">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        name="quizName"
+        type="text"
+        class="form-control"
+        id="quizName"
+        [(ngModel)]="currentQuiz.studentName"
+        required
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="question-group">
+    <div
+      class="question"
+      *ngFor="let question of currentQuiz.questions; let i = index"
+    >
+      @switch (question.type) { @case(0) {
+
+      <div class="question">
+        <app-multiple-choices
+          [question]="question"
+          [isReadOnly]="true"
+        ></app-multiple-choices>
+        <div class="actions"></div>
+      </div>
+
+      } @case(1) {
+      <app-short-answer [question]="question"></app-short-answer>
+      } }
+    </div>
+  </div>
+</div>
+<button
+  [disabled]="currentQuiz.isReadOnly"
+  mat-raised-button
+  color="primary"
+  (click)="back()"
+  style="margin-top: 30px"
+>
+  Back
+</button>

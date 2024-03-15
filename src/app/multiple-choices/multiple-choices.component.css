@@ -1,0 +1,29 @@
+.choice-index {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(216, 210, 210);
+  border-radius: 15px;
+  text-align: center;
+  line-height: 30px;
+  cursor: pointer;
+  margin: 15px 10px 0 0;
+}
+
+.question-text {
+  width: 30px;
+  height: 30px;
+  line-height: 60px;
+}
+
+.choice-index.selected {
+  background: #0efa55;
+}
+
+.choice-group {
+  margin-top: 20px;
+}
+
+.choice {
+  display: flex;
+  align-items: start;
+}

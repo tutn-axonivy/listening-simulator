@@ -1,0 +1,13 @@
+.choice-group {
+  margin-top: 20px;
+}
+
+.question-text {
+  width: 30px;
+  height: 30px;
+  line-height: 60px;
+}
+
+.form-group {
+  display: flex;
+}

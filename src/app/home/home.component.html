@@ -1,0 +1,41 @@
+<mat-tab-group>
+  <mat-tab label="Tests">
+    <div class="container">
+      <div style="display: flex; flex-direction: row">
+        <mat-form-field>
+          <input matInput type="text" />
+        </mat-form-field>
+      </div>
+
+      @for (quiz of quizzes; track $index) {
+      <div class="quizzes">
+        <mat-card class="card" (click)="testTest(quiz.id)">
+          <mat-card-content>{{ quiz.name }} </mat-card-content>
+        </mat-card>
+      </div>
+      }
+      <div class="actions">
+        <button mat-raised-button color="primary" (click)="addNewQuiz()">
+          Add New Quiz
+        </button>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Results">
+    <div class="container">
+      <div style="display: flex; flex-direction: row">
+        <mat-form-field>
+          <input matInput type="text" />
+        </mat-form-field>
+      </div>
+
+      @for (result of results; track $index) {
+      <div class="quizzes">
+        <mat-card class="card" (click)="viewResult(result.id)">
+          <mat-card-content>{{ result.studentName }} </mat-card-content>
+        </mat-card>
+      </div>
+      }
+    </div>
+  </mat-tab>
+</mat-tab-group>
