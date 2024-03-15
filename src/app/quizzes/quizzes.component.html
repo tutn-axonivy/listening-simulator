@@ -15,12 +15,19 @@
     </mat-form-field>
   </div>
 
-  <div class="form-group">
-    <div class="audio">
-      <audio controls>
-        <source src="../../assets/audio.flac" type="audio/mpeg" />
-      </audio>
-    </div>
+   <div class="form-group">
+    <mat-form-field>
+      <mat-label>Audio Name</mat-label>
+      <input
+        matInput
+        name="fileName"
+        type="text"
+        class="form-control"
+        id="fileName"
+        [(ngModel)]="currentQuiz.audioName"
+        required
+      />
+    </mat-form-field>
   </div>
 
   <div class="form-group">
