@@ -61,7 +61,7 @@ export class TestComponent {
           this.minutes = Math.floor(this.totalSeconds / 60);
           this.seconds = this.totalSeconds % 60;
           const audioElement: HTMLAudioElement = this.audioPlayer.nativeElement;
-          this.audioUrl = quiz.audioUrl;
+          this.audioUrl = quiz.fileUrl;
           audioElement.load();
         });
       }
