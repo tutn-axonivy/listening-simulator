@@ -136,7 +136,7 @@ export class QuizzesComponent implements OnInit {
 
   saveQuiz() {
     this.currentQuiz.timeout = this.currentQuiz.timeout * 1000 * 60;
-    this.currentQuiz.fileUrl = `assets/${this.fileName}.mp3`;
+    this.currentQuiz.fileUrl = `assets/${this.fileName}`;
     this.quizService.createQuiz(this.currentQuiz).subscribe();
     this.router.navigate(['/']);
   }
