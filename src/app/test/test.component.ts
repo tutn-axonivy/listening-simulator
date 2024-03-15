@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { CommonModule } from '@angular/common';
@@ -31,6 +31,8 @@ import { TestService } from './test.service';
   styleUrl: './test.component.css',
 })
 export class TestComponent {
+  @ViewChild('audioPlayer') audioPlayer!: ElementRef;
+  audioUrl: string = '';
   currentQuiz: any = {
     name: '',
     timeout: null,
@@ -58,6 +60,9 @@ export class TestComponent {
           this.totalSeconds = quiz.timeout * 60;
           this.minutes = Math.floor(this.totalSeconds / 60);
           this.seconds = this.totalSeconds % 60;
+          const audioElement: HTMLAudioElement = this.audioPlayer.nativeElement;
+          this.audioUrl = quiz.audioUrl;
+          audioElement.load();
         });
       }
     });
