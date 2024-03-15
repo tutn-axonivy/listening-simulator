@@ -1,0 +1,373 @@
+{
+  "quizzes": [
+    {
+      "id": "1",
+      "name": "The quiz",
+      "timeout": 120,
+      "questions": [
+        {
+          "id": 1,
+          "type": 0,
+          "title": "Title",
+          "description": "Description",
+          "choices": [
+            {
+              "id": 1,
+              "content": "This is content"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "New quiz",
+      "timeout": 123,
+      "questions": [
+        {
+          "title": "<b>afadfasdfa<b>",
+          "type": 0,
+          "description": "",
+          "choices": [
+            {
+              "id": 1,
+              "content": "asdfasdf",
+              "isSelected": false
+            },
+            {
+              "id": 2,
+              "content": "adfasdf",
+              "isSelected": false
+            },
+            {
+              "id": 3,
+              "content": "adf",
+              "isSelected": false
+            },
+            {
+              "id": 4,
+              "content": "asdfa",
+              "isSelected": false
+            }
+          ]
+        },
+        {
+          "title": "adf",
+          "type": 1,
+          "description": "",
+          "choices": [
+            {
+              "id": 1,
+              "content": "adfadf",
+              "index": "2"
+            },
+            {
+              "id": 2,
+              "content": "asdf",
+              "index": "3"
+            },
+            {
+              "id": 3,
+              "content": "adf",
+              "index": "4"
+            },
+            {
+              "id": 4,
+              "content": "safda",
+              "index": "5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "New Quiz",
+      "timeout": 32,
+      "questions": [
+        {
+          "title": "<font size=\"7\">This is the title</font>",
+          "type": 0,
+          "description": "",
+          "choices": [
+            {
+              "id": 1,
+              "content": "abc",
+              "isSelected": false
+            },
+            {
+              "id": 2,
+              "content": "ddd",
+              "isSelected": false
+            },
+            {
+              "id": 3,
+              "content": "",
+              "isSelected": false
+            },
+            {
+              "id": 4,
+              "content": "",
+              "isSelected": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "3",
+      "name": "New Quiz",
+      "timeout": 32,
+      "questions": [
+        {
+          "title": "<font size=\"7\">This is the title</font>",
+          "type": 0,
+          "description": "",
+          "choices": [
+            {
+              "id": 1,
+              "content": "abc",
+              "isSelected": false
+            },
+            {
+              "id": 2,
+              "content": "ddd",
+              "isSelected": false
+            },
+            {
+              "id": 3,
+              "content": "",
+              "isSelected": false
+            },
+            {
+              "id": 4,
+              "content": "",
+              "isSelected": false
+            }
+          ]
+        }
+      ],
+      "studentName": "Tu",
+      "isReadOnly": true
+    },
+    {
+      "id": "3",
+      "name": "New Quiz",
+      "timeout": 32,
+      "questions": [
+        {
+          "title": "<font size=\"7\">This is the title</font>",
+          "type": 0,
+          "description": "",
+          "choices": [
+            {
+              "id": 1,
+              "content": "abc",
+              "isSelected": false
+            },
+            {
+              "id": 2,
+              "content": "ddd",
+              "isSelected": false
+            },
+            {
+              "id": 3,
+              "content": "",
+              "isSelected": false
+            },
+            {
+              "id": 4,
+              "content": "",
+              "isSelected": false
+            }
+          ]
+        }
+      ],
+      "isReadOnly": true,
+      "studentName": "Tu"
+    },
+    {
+      "id": "1",
+      "name": "The quiz",
+      "timeout": 3600000,
+      "questions": [
+        {
+          "id": 1,
+          "type": 0,
+          "title": "Title",
+          "description": "Description",
+          "choices": [
+            {
+              "id": 1,
+              "content": "This is content"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1",
+      "name": "The quiz",
+      "timeout": 3600000,
+      "questions": [
+        {
+          "id": 1,
+          "type": 0,
+          "title": "Title",
+          "description": "Description",
+          "choices": [
+            {
+              "id": 1,
+              "content": "This is content"
+            }
+          ]
+        }
+      ],
+      "isReadOnly": true
+    },
+    {
+      "id": "1",
+      "name": "The quiz",
+      "timeout": 3600000,
+      "questions": [
+        {
+          "id": 1,
+          "type": 0,
+          "title": "Title",
+          "description": "Description",
+          "choices": [
+            {
+              "id": 1,
+              "content": "This is content"
+            }
+          ]
+        }
+      ],
+      "isReadOnly": true
+    },
+    {
+      "id": "1",
+      "name": "The quiz",
+      "timeout": 3600000,
+      "questions": [
+        {
+          "id": 1,
+          "type": 0,
+          "title": "Title",
+          "description": "Description",
+          "choices": [
+            {
+              "id": 1,
+              "content": "This is content"
+            }
+          ]
+        }
+      ],
+      "isReadOnly": true
+    },
+    {
+      "id": "1",
+      "name": "The quiz",
+      "timeout": 3600000,
+      "questions": [
+        {
+          "id": 1,
+          "type": 0,
+          "title": "Title",
+          "description": "Description",
+          "choices": [
+            {
+              "id": 1,
+              "content": "This is content"
+            }
+          ]
+        }
+      ],
+      "isReadOnly": true
+    },
+    {
+      "id": "1",
+      "name": "The quiz",
+      "timeout": 120,
+      "questions": [
+        {
+          "id": 1,
+          "type": 0,
+          "title": "Title",
+          "description": "Description",
+          "choices": [
+            {
+              "id": 1,
+              "content": "This is content"
+            }
+          ]
+        }
+      ],
+      "isReadOnly": true
+    },
+    {
+      "id": "2",
+      "name": "New quiz",
+      "timeout": 123,
+      "questions": [
+        {
+          "title": "<b>afadfasdfa<b>",
+          "type": 0,
+          "description": "",
+          "choices": [
+            {
+              "id": 1,
+              "content": "asdfasdf",
+              "isSelected": false
+            },
+            {
+              "id": 2,
+              "content": "adfasdf",
+              "isSelected": false
+            },
+            {
+              "id": 3,
+              "content": "adf",
+              "isSelected": true
+            },
+            {
+              "id": 4,
+              "content": "asdfa",
+              "isSelected": false
+            }
+          ]
+        },
+        {
+          "title": "adf",
+          "type": 1,
+          "description": "",
+          "choices": [
+            {
+              "id": 1,
+              "content": "adfadf",
+              "index": "2"
+            },
+            {
+              "id": 2,
+              "content": "asdf",
+              "index": "3"
+            },
+            {
+              "id": 3,
+              "content": "adf",
+              "index": "4"
+            },
+            {
+              "id": 4,
+              "content": "safda",
+              "index": "5"
+            }
+          ]
+        }
+      ],
+      "studentName": "abc"
+    }
+  ]
+}
