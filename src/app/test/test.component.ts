@@ -86,17 +86,13 @@ export class TestComponent {
 
   startTimer() {
     this.interval = setInterval(() => {
-      if (this.minutes > 0 || this.seconds > 0) {
-        if (this.seconds === 0) {
-          this.minutes--;
-          this.seconds = 59;
-        } else {
-          this.seconds--;
-        }
+      if (this.seconds === 0) {
+        this.minutes--;
+        this.seconds = 59;
       } else {
-        clearInterval(this.interval);
+        this.seconds--;
       }
-    }, this.totalSeconds * 1000);
+    }, 1000);
   }
 
   ngOnDestroy() {
