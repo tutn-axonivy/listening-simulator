@@ -7,12 +7,6 @@
   align-items: center;
 }
 
-.search-button {
-  text-align: center;
-  margin-left: 10px;
-  line-height: 24px;
-}
-
 .quizzes {
   display: flex;
   flex-wrap: wrap;
@@ -38,4 +32,9 @@
 
 .card-content-text {
   line-height: 48px;
+}
+
+.result {
+  text-align: left;
+  cursor: pointer;
 }

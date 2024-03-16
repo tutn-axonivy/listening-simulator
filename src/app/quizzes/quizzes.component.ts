@@ -166,8 +166,7 @@ export class QuizzesComponent implements OnDestroy {
       if (this.selectedFile.name !== this.currentQuiz.fileName) {
         const deleteSub = this.fileServie
           .deleteFile(this.currentQuiz.fileName)
-          .subscribe((res) => {
-            console.log(res)
+          .subscribe(() => {
             this.uploadFile();
           });
         this.subscription.push(deleteSub);

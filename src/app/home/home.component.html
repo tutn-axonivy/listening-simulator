@@ -4,7 +4,7 @@
       @for (quiz of quizzes; track $index) {
       <div class="quizzes">
         <mat-card class="card">
-          <mat-card-content class="card-content" >
+          <mat-card-content class="card-content">
             <h2 class="mat-display-2 card-content-text">
               {{ quiz.name }}
             </h2></mat-card-content
@@ -31,17 +31,11 @@
   </mat-tab>
   <mat-tab label="Results">
     <div class="container">
-      <div style="display: flex; flex-direction: row">
-        <mat-form-field>
-          <input matInput type="text" />
-        </mat-form-field>
-      </div>
-
       @for (result of results; track $index) {
       <div class="quizzes">
         <mat-card class="card" (click)="viewResult(result.id)">
-          <mat-card-content class="card-content"
-            ><h2 class="mat-display-2 card-content-text">
+          <mat-card-content class="result"
+            ><h2 class="mat-display-2">
               {{ result.studentName }}
             </h2></mat-card-content
           >

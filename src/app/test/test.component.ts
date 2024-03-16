@@ -1,15 +1,15 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
-import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { CommonModule } from '@angular/common';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { QuizService } from '../quizzes/quizzes.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
+import { QuizService } from '../quizzes/quizzes.service';
+import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { TestService } from './test.service';
 
 @Component({
@@ -67,14 +67,12 @@ export class TestComponent {
   }
 
   getAudioFile(fileName: string) {
-    this.testService
-      .getAudioFile(fileName)
-      .subscribe((audioFile: Blob) => {
-        const fileURL = URL.createObjectURL(audioFile);
-        const audioElement: HTMLAudioElement = this.audioPlayer.nativeElement;
-        this.audioUrl = fileURL;
-        audioElement.load();
-      });
+    this.testService.getAudioFile(fileName).subscribe((audioFile: Blob) => {
+      const fileURL = URL.createObjectURL(audioFile);
+      const audioElement: HTMLAudioElement = this.audioPlayer.nativeElement;
+      this.audioUrl = fileURL;
+      audioElement.load();
+    });
   }
 
   submit() {
@@ -88,9 +86,9 @@ export class TestComponent {
     this.startTimer();
     setTimeout(() => {
       this.currentQuiz.isReadOnly = true;
-      // this.testService.submitTest(this.currentQuiz).subscribe(() => {
-      //   this.router.navigate(['']);
-      // });
+      this.testService.submitTest(this.currentQuiz).subscribe(() => {
+        this.router.navigate(['']);
+      });
     }, this.totalSeconds * 1000);
   }
 
