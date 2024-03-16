@@ -8,7 +8,7 @@
         type="text"
         class="form-control"
         id="quizName"
-        [(ngModel)]="currentQuiz.studentName"
+        [(ngModel)]="result.studentName"
         required
       />
     </mat-form-field>
@@ -31,12 +31,12 @@
   <div class="question-group">
     <div
       class="question"
-      *ngFor="let question of currentQuiz.questions; let i = index"
+      *ngFor="let question of quiz.questions; let i = index"
     >
       @switch (question.type) { @case(0) {
 
       <div class="question">
-        <app-multiple-choices [question]="question"></app-multiple-choices>
+        <app-multiple-choices [question]="question" [isTesting]="true" (onValuChange)="onMultipleChoiceSelect($event, question.id)"></app-multiple-choices>
         <div class="actions"></div>
       </div>
 
@@ -56,9 +56,9 @@
   } @else {
   <button
     [disabled]="
-      !currentQuiz.studentName ||
-      currentQuiz.studentName === null ||
-      currentQuiz.studentName === ''
+      !result.studentName ||
+      result.studentName === null ||
+      result.studentName === ''
     "
     mat-raised-button
     color="primary"

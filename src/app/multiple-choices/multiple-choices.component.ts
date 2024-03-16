@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,6 +26,9 @@ export class MultipleChoicesComponent {
   @Input() question: any;
   @Input() isEditting: boolean = false;
   @Input() isReadOnly: boolean = false;
+  @Input() isTesting: boolean = false;
+  @Output() onValuChange = new EventEmitter();
+  selectedAnswer: number | undefined = undefined;
   config: AngularEditorConfig = {};
   CHOICE_INDEX = [
     'A',
@@ -64,12 +67,16 @@ export class MultipleChoicesComponent {
     if (this.isReadOnly) {
       return;
     }
-    this.question.choices.forEach((choice: any) => {
-      choice.isSelected = false;
-    });
 
-    this.question.choices[index].isSelected =
-      !this.question.choices[index].isSelected;
+    this.selectedAnswer = this.question.choices[index].id;
+
+    if (this.isEditting) {
+      this.question.correctAnswer = this.selectedAnswer;
+    }
+    if (this.isTesting) {
+      this.question.answer = this.selectedAnswer;
+      this.onValuChange.emit(this.question.choices[index].id);
+    }
   }
 
   removeChoice(index: number) {

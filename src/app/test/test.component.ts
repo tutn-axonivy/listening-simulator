@@ -11,6 +11,8 @@ import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.c
 import { QuizService } from '../quizzes/quizzes.service';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { TestService } from './test.service';
+import { CommonUtils } from '../../utils/common-utils';
+import { toArray } from 'lodash';
 
 @Component({
   selector: 'app-test',
@@ -33,12 +35,14 @@ import { TestService } from './test.service';
 export class TestComponent {
   @ViewChild('audioPlayer') audioPlayer!: ElementRef;
   audioUrl: string = '';
-  currentQuiz: any = {
+  result: any = {
     name: '',
     timeout: null,
     questions: [],
     studentName: null,
   };
+  quiz: any;
+  mapQuestionById: Record<string, any> = {};
 
   minutes: number = 0;
   seconds: number = 0;
@@ -56,14 +60,20 @@ export class TestComponent {
       const quizId = paramMap.get('quizId');
       if (quizId) {
         this.quizService.getById(quizId).subscribe((quiz: any) => {
-          this.currentQuiz = quiz;
+          this.quiz = quiz;
           this.totalSeconds = quiz.timeout * 60;
           this.minutes = Math.floor(this.totalSeconds / 60);
           this.seconds = this.totalSeconds % 60;
-          this.getAudioFile(this.currentQuiz.fileName);
+          this.generateMapQuestion(quiz.questions);
+          this.getAudioFile(this.result.fileName);
         });
-        this.getStudentName();
       }
+    });
+  }
+
+  generateMapQuestion(questions: any[]) {
+    questions.forEach((question) => {
+      this.mapQuestionById[question.id] = question;
     });
   }
 
@@ -77,8 +87,9 @@ export class TestComponent {
   }
 
   submit() {
-    this.currentQuiz.id = this.generateObjectId();
-    this.testService.submitTest(this.currentQuiz).subscribe(() => {
+    this.result.questions = toArray(this.mapQuestionById);
+    this.result.quizId = this.quiz.id;
+    this.testService.submitTest(this.result).subscribe(() => {
       this.router.navigate(['']);
     });
   }
@@ -103,26 +114,14 @@ export class TestComponent {
     }, 1000);
   }
 
+  onMultipleChoiceSelect(choiceId: string, questionId: string) {
+    this.mapQuestionById[questionId] = {
+      ...this.mapQuestionById[questionId],
+      answer: choiceId,
+    };
+  }
+
   ngOnDestroy() {
     clearInterval(this.interval);
-  }
-
-  getStudentName() {
-    console.log(
-      this.currentQuiz.studentName === null ||
-        this.currentQuiz.studentName === ''
-    );
-    return (
-      this.currentQuiz.studentName === null ||
-      this.currentQuiz.studentName === ''
-    );
-  }
-
-  generateObjectId() {
-    const timestamp = ((new Date().getTime() / 1000) | 0).toString(16);
-    const machineId = Math.floor(Math.random() * 16777216).toString(16);
-    const counter = Math.floor(Math.random() * 16777216).toString(16);
-
-    return timestamp + machineId + counter;
   }
 }

@@ -12,6 +12,7 @@ import { FileService } from '../file.service';
 import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { QuizService } from './quizzes.service';
+import { CommonUtils } from '../../utils/common-utils';
 
 @Component({
   selector: 'app-quizzes',
@@ -74,60 +75,18 @@ export class QuizzesComponent implements OnDestroy {
     switch (questionType) {
       case 0:
         this.currentQuestion = {
-          title: '',
+          id: CommonUtils.generateRandomId(),
+          content: '',
           type: questionType,
-          description: '',
-          choices: [
-            {
-              id: 1,
-              content: '',
-              isSelected: false,
-            },
-            {
-              id: 2,
-              content: '',
-              isSelected: false,
-            },
-            {
-              id: 3,
-              content: '',
-              isSelected: false,
-            },
-            {
-              id: 4,
-              content: '',
-              isSelected: false,
-            },
-          ],
+          choices: this.defaultMultipleChoices(),
         };
         break;
       case 1:
         this.currentQuestion = {
-          title: '',
+          id: CommonUtils.generateRandomId(),
+          content: '',
           type: questionType,
-          description: '',
-          choices: [
-            {
-              id: 1,
-              content: '',
-              index: '',
-            },
-            {
-              id: 2,
-              content: '',
-              index: '',
-            },
-            {
-              id: 3,
-              content: '',
-              index: '',
-            },
-            {
-              id: 4,
-              content: '',
-              index: '',
-            },
-          ],
+          choices: this.defaultShortAnswerChoices(),
         };
         break;
       default:
@@ -135,6 +94,31 @@ export class QuizzesComponent implements OnDestroy {
     }
     this.currentQuiz.questions.push({ ...this.currentQuestion });
     this.currentQuiz = { ...this.currentQuiz };
+  }
+
+  defaultMultipleChoices() {
+    const choices = [];
+    for (let i = 0; i < 4; i++) {
+      const choice = {
+        id: CommonUtils.generateRandomId(),
+        content: '',
+      };
+      choices.push(choice);
+    }
+    return choices;
+  }
+
+  defaultShortAnswerChoices() {
+    const choices = [];
+    for (let i = 0; i < 4; i++) {
+      const choice = {
+        id: CommonUtils.generateRandomId(),
+        content: '',
+        index: '',
+      };
+      choices.push(choice);
+    }
+    return choices;
   }
 
   saveQuestion() {
@@ -151,14 +135,6 @@ export class QuizzesComponent implements OnDestroy {
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0] ?? null;
-  }
-
-  submitForm() {
-    this.currentQuiz = {
-      name: '',
-      timeout: null,
-      questions: [],
-    };
   }
 
   onSaveClick() {
@@ -194,6 +170,7 @@ export class QuizzesComponent implements OnDestroy {
     if (quiz.id) {
       observer = this.quizService.editQuiz(quiz);
     } else {
+      quiz.id = CommonUtils.generateRandomId();
       observer = this.quizService.createQuiz(quiz);
     }
     const sub = observer.subscribe(() => {

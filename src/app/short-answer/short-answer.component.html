@@ -2,7 +2,6 @@
   <div class="question-group">
     <div class="form-group">
       @if (isEditting) {
-
       <angular-editor
         name="questionTitle"
         id="editor1"
@@ -20,28 +19,38 @@
       <div class="form-group">
         @if (isEditting) {
         <mat-form-field style="width: 50px; margin-right: 10px">
+          <mat-label>No.</mat-label>
           <input
             matInput
-            name="index"
+            [name]="i.toString()"
             type="text"
             class="form-control"
-            id="index"
             [(ngModel)]="choice.index"
           />
         </mat-form-field>
         } @else {
-        <h4 class="mat-display-4 question-text">{{ choice.index }}</h4>
-        }
+        <p class="question-text">{{ choice.index }}</p>
+        } @if (isReadOnly) {
+        <p
+          class="answer"
+          [ngClass]="{ correct: choice.answer === choice.content }"
+        >
+          {{ choice.answer }}
+        </p>
+        @if (choice.answer !== choice.content) {
+        <p class="answer incorrect">&nbsp;&nbsp;{{ choice.content }}</p>
+        } } @else {
         <mat-form-field>
+          <mat-label>Answer</mat-label>
           <input
             matInput
-            name="choiceContent"
+            [name]="choice + i"
             type="text"
             class="form-control"
-            id="choiceContent"
-            [(ngModel)]="choice.content"
+            [(ngModel)]="isEditting ? choice.content : choice.answer"
           />
         </mat-form-field>
+        }
         <button
           *ngIf="isEditting"
           mat-button

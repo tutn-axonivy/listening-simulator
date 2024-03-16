@@ -27,14 +27,9 @@ export class ShortAnswerComponent {
   @Input() question: any;
   @Input() isEditting: boolean = false;
   @Input() isReadOnly: boolean = false;
-  
-  addChoice() {
-    this.question.choices.push({ content: '' });
-  }
 
-  onSelectChoice(index: number) {
-    this.question.choices[index].isSelected =
-      !this.question.choices[index].isSelected;
+  addChoice() {
+    this.question.choices.push({ index: '', content: '' });
   }
 
   removeChoice(index: number) {

@@ -1,40 +1,37 @@
-<div class="container">
-  <div class="form-group">
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input
-        matInput
-        name="quizName"
-        type="text"
-        class="form-control"
-        id="quizName"
-        [(ngModel)]="currentQuiz.studentName"
-        required
-      />
-    </mat-form-field>
-  </div>
+<section>
+  <div class="container">
+    <div class="form-group">
+      <h1>Name: {{ result.studentName }}</h1>
+      <h3>Point: {{ correctPoint }}/{{ totalPoint }}</h3>
+    </div>
 
-  <div class="question-group">
-    <div
-      class="question"
-      *ngFor="let question of currentQuiz.questions; let i = index"
-    >
-      @switch (question.type) { @case(0) {
-
-      <div class="question">
-        <app-multiple-choices
-          [question]="question"
-          [isReadOnly]="true"
-        ></app-multiple-choices>
-        <div class="actions"></div>
+    <div class="question-group">
+      <div
+        class="question"
+        *ngFor="let question of result.questions; let i = index"
+      >
+        <mat-card>
+          <mat-card-content>
+            @switch (question.type) { @case(0) {
+            <div class="question">
+              <app-multiple-choices
+                [question]="question"
+                [isReadOnly]="true"
+              ></app-multiple-choices>
+              <div class="actions"></div>
+            </div>
+            } @case(1) {
+            <app-short-answer
+              [question]="question"
+              [isReadOnly]="true"
+            ></app-short-answer>
+            } }
+          </mat-card-content>
+        </mat-card>
       </div>
-
-      } @case(1) {
-      <app-short-answer [question]="question"></app-short-answer>
-      } }
     </div>
   </div>
-</div>
+</section>
 <button
   mat-raised-button
   color="primary"

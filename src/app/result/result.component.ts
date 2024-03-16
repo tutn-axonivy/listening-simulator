@@ -11,6 +11,7 @@ import { QuizService } from '../quizzes/quizzes.service';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { TestService } from '../test/test.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { each } from 'lodash';
 
 @Component({
   selector: 'app-result',
@@ -31,12 +32,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './result.component.css',
 })
 export class ResultComponent {
-  currentQuiz: any = {
-    name: '',
-    timeout: null,
-    questions: [],
+  result: any = {
     studentName: '',
+    questions: [],
   };
+  totalPoint = 0;
+  correctPoint = 0;
 
   constructor(
     private quizService: QuizService,
@@ -48,11 +49,39 @@ export class ResultComponent {
       const resultId = paramMap.get('resultId');
       if (resultId) {
         this.testService.getResultById(resultId).subscribe((result) => {
-          this.currentQuiz = result;
+          this.result = result;
+          this.calculatePoint();
         });
       }
     });
   }
+
+  private calculatePoint() {
+    each(this.result.questions, (question) => {
+      if (question.type === 0) {
+        // Multiple choices
+        this.totalPoint++;
+        if (question.answer === question.correctAnswer) {
+          this.correctPoint++;
+        }
+      }
+
+      if (question.type === 1) {
+        // Short answer
+        each(question.choices, (choice) => {
+          this.totalPoint++;
+          if (choice.answer === choice.content) {
+            this.correctPoint++;
+          }
+        });
+      }
+    });
+  }
+
+  printPage() {
+    window.print();
+  }
+
   back() {
     this.router.navigate(['']);
   }

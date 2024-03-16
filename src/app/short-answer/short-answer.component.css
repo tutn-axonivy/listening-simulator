@@ -8,6 +8,21 @@
   line-height: 60px;
 }
 
+.answer {
+  height: 30px;
+  line-height: 60px;
+}
+
+.answer.correct {
+  color: var(--success-color);
+  font-weight: bold;
+}
+
+.answer.incorrect {
+  color: var(--danger-color);
+  font-weight: bold;
+}
+
 .form-group {
   display: flex;
 }

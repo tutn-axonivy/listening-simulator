@@ -16,7 +16,11 @@
 }
 
 .choice-index.selected {
-  background: #0efa55;
+  background: var(--success-color);
+}
+
+.choice-index.isWrong {
+  background: #f81212;
 }
 
 .choice-group {
