@@ -3,8 +3,22 @@
     <div class="container">
       @for (quiz of quizzes; track $index) {
       <div class="quizzes">
-        <mat-card class="card" (click)="testTest(quiz.id)">
-          <mat-card-content>{{ quiz.name }} </mat-card-content>
+        <mat-card class="card">
+          <mat-card-content class="card-content" >
+            <h2 class="mat-display-2 card-content-text">
+              {{ quiz.name }}
+            </h2></mat-card-content
+          >
+          <mat-card-actions>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="testTest(quiz.id)">Test</button>
+              <button mat-menu-item (click)="editQuiz(quiz.id)">Edit</button>
+              <button mat-menu-item>Delete</button>
+            </mat-menu>
+          </mat-card-actions>
         </mat-card>
       </div>
       }
@@ -26,7 +40,11 @@
       @for (result of results; track $index) {
       <div class="quizzes">
         <mat-card class="card" (click)="viewResult(result.id)">
-          <mat-card-content>{{ result.studentName }} </mat-card-content>
+          <mat-card-content class="card-content"
+            ><h2 class="mat-display-2 card-content-text">
+              {{ result.studentName }}
+            </h2></mat-card-content
+          >
         </mat-card>
       </div>
       }

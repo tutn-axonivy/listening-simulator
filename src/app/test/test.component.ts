@@ -60,7 +60,7 @@ export class TestComponent {
           this.totalSeconds = quiz.timeout * 60;
           this.minutes = Math.floor(this.totalSeconds / 60);
           this.seconds = this.totalSeconds % 60;
-          this.getAudioFile(this.currentQuiz.fileUrl);
+          this.getAudioFile(this.currentQuiz.fileName);
         });
       }
     });

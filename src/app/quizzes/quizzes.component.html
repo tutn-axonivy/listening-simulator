@@ -16,18 +16,6 @@
   </div>
 
   <div class="form-group">
-    <!-- <mat-form-field>
-      <mat-label>Audio Name</mat-label>
-      <input
-        matInput
-        name="fileName"
-        type="text"
-        class="form-control"
-        id="fileName"
-        [(ngModel)]="fileName"
-        required
-      />
-    </mat-form-field> -->
     <div class="upload-file">
       <button
         type="button"
@@ -35,7 +23,7 @@
         (click)="fileInput.click()"
         style="margin-right: 10px"
       >
-        Choose File
+        Audio File
       </button>
       <input
         hidden
@@ -44,7 +32,9 @@
         type="file"
         id="file"
       />
-      <span class="file-name">{{ selectedFile?.name }}</span>
+      <span class="file-name">{{
+        selectedFile ? selectedFile?.name : this.currentQuiz.fileName
+      }}</span>
     </div>
   </div>
 
@@ -118,7 +108,7 @@
     </mat-card>
   </div>
 
-  <button mat-raised-button color="primary" (click)="saveQuiz()">
+  <button mat-raised-button color="primary" (click)="onSaveClick()">
     Save and Quit
   </button>
 </div>

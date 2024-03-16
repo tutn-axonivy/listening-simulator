@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { FileService } from '../file.service';
 import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { QuizService } from './quizzes.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-quizzes',
@@ -26,7 +27,7 @@ import { Subscription } from 'rxjs';
     MultipleChoicesComponent,
     ShortAnswerComponent,
   ],
-  providers: [QuizService],
+  providers: [QuizService, FileService],
   templateUrl: './quizzes.component.html',
   styleUrl: './quizzes.component.css',
 })
@@ -47,7 +48,21 @@ export class QuizzesComponent implements OnDestroy {
 
   subscription: Subscription[] = [];
 
-  constructor(private quizService: QuizService, private router: Router) {}
+  constructor(
+    private quizService: QuizService,
+    private fileServie: FileService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.route.paramMap.subscribe((paramMap: any) => {
+      const quizId = paramMap.get('quizId');
+      if (quizId) {
+        this.quizService.getById(quizId).subscribe((quiz: any) => {
+          this.currentQuiz = quiz;
+        });
+      }
+    });
+  }
 
   ngOnDestroy(): void {
     this.subscription.forEach((sub) => {
@@ -146,16 +161,45 @@ export class QuizzesComponent implements OnDestroy {
     };
   }
 
-  saveQuiz() {
-    const uploadSub = this.quizService
+  onSaveClick() {
+    if (this.selectedFile) {
+      if (this.selectedFile.name !== this.currentQuiz.fileName) {
+        const deleteSub = this.fileServie
+          .deleteFile(this.currentQuiz.fileName)
+          .subscribe((res) => {
+            console.log(res)
+            this.uploadFile();
+          });
+        this.subscription.push(deleteSub);
+      }
+    } else {
+      this.saveOrEditQuiz(this.currentQuiz);
+    }
+  }
+
+  uploadFile() {
+    const uploadSub = this.fileServie
       .uploadAudioFile(this.selectedFile)
       .subscribe((res) => {
+        this.subscription.push(uploadSub);
         if (res) {
-          this.currentQuiz.fileUrl = res.fileName;
-          this.quizService.createQuiz(this.currentQuiz).subscribe();
-          this.router.navigate(['/']);
+          this.currentQuiz.fileName = res.fileName;
+          this.saveOrEditQuiz(this.currentQuiz);
         }
       });
     this.subscription.push(uploadSub);
+  }
+
+  saveOrEditQuiz(quiz: any) {
+    let observer;
+    if (quiz.id) {
+      observer = this.quizService.editQuiz(quiz);
+    } else {
+      observer = this.quizService.createQuiz(quiz);
+    }
+    const sub = observer.subscribe(() => {
+      this.router.navigate(['/']);
+    });
+    this.subscription.push(sub);
   }
 }

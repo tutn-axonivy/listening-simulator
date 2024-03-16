@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { QuizService } from '../quizzes/quizzes.service';
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Router } from '@angular/router';
+import { QuizService } from '../quizzes/quizzes.service';
 import { TestService } from '../test/test.service';
 
 @Component({
@@ -17,6 +19,8 @@ import { TestService } from '../test/test.service';
     MatFormFieldModule,
     MatInputModule,
     MatTabsModule,
+    MatMenuModule,
+    MatIconModule,
   ],
   providers: [QuizService, TestService],
   templateUrl: './home.component.html',
@@ -50,5 +54,9 @@ export class HomeComponent {
 
   addNewQuiz() {
     this.router.navigate(['add-quiz']);
+  }
+
+  editQuiz(quizId: any) {
+    this.router.navigate(['edit-quiz', quizId]);
   }
 }

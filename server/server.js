@@ -54,6 +54,25 @@ server.get("/file/:filename", (req, res) => {
   }
 });
 
+server.delete("/file/:filename", (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, "upload", filename);
+
+  // Delete the file
+  if (fs.existsSync(filePath)) {
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Failed to delete the file");
+      }
+
+      res.status(200).send({ message: "File removed successfully" });
+    });
+  } else {
+    return res.status(200).send({message: 'File removed successfully'});
+  }
+});
+
 server.use("/", jsonServer.router("db.json"));
 
 server.listen(3000, () => {

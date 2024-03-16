@@ -7,6 +7,7 @@ import { ResultComponent } from './result/result.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'add-quiz', component: QuizzesComponent },
+  { path: 'edit-quiz/:quizId', component: QuizzesComponent },
   { path: 'test/:quizId', component: TestComponent },
   { path: 'results/:resultId', component: ResultComponent },
 ];
