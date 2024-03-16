@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { QuizService } from './quizzes.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-quizzes',
@@ -29,8 +30,9 @@ import { QuizService } from './quizzes.service';
   templateUrl: './quizzes.component.html',
   styleUrl: './quizzes.component.css',
 })
-export class QuizzesComponent implements OnInit {
+export class QuizzesComponent implements OnDestroy {
   fileName: string = '';
+  selectedFile: any;
   currentQuiz: any = {
     name: '',
     timeout: null,
@@ -43,8 +45,15 @@ export class QuizzesComponent implements OnInit {
     choices: [],
   };
 
+  subscription: Subscription[] = [];
+
   constructor(private quizService: QuizService, private router: Router) {}
-  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.subscription.forEach((sub) => {
+      sub.unsubscribe();
+    });
+  }
 
   addQuestion(questionType: number) {
     switch (questionType) {
@@ -125,6 +134,10 @@ export class QuizzesComponent implements OnInit {
     this.currentQuiz.questions.splice(index, 1);
   }
 
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0] ?? null;
+  }
+
   submitForm() {
     this.currentQuiz = {
       name: '',
@@ -134,8 +147,15 @@ export class QuizzesComponent implements OnInit {
   }
 
   saveQuiz() {
-    this.currentQuiz.fileUrl = `assets/${this.fileName}`;
-    this.quizService.createQuiz(this.currentQuiz).subscribe();
-    this.router.navigate(['/']);
+    const uploadSub = this.quizService
+      .uploadAudioFile(this.selectedFile)
+      .subscribe((res) => {
+        if (res) {
+          this.currentQuiz.fileUrl = res.fileName;
+          this.quizService.createQuiz(this.currentQuiz).subscribe();
+          this.router.navigate(['/']);
+        }
+      });
+    this.subscription.push(uploadSub);
   }
 }

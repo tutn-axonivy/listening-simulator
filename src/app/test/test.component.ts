@@ -55,17 +55,26 @@ export class TestComponent {
     this.route.paramMap.subscribe((paramMap: any) => {
       const quizId = paramMap.get('quizId');
       if (quizId) {
-        this.quizService.getById(Number(quizId)).subscribe((quiz: any) => {
+        this.quizService.getById(quizId).subscribe((quiz: any) => {
           this.currentQuiz = quiz;
           this.totalSeconds = quiz.timeout * 60;
           this.minutes = Math.floor(this.totalSeconds / 60);
           this.seconds = this.totalSeconds % 60;
-          const audioElement: HTMLAudioElement = this.audioPlayer.nativeElement;
-          this.audioUrl = quiz.fileUrl;
-          audioElement.load();
+          this.getAudioFile(this.currentQuiz.fileUrl);
         });
       }
     });
+  }
+
+  getAudioFile(fileName: string) {
+    this.testService
+      .getAudioFile(fileName)
+      .subscribe((audioFile: Blob) => {
+        const fileURL = URL.createObjectURL(audioFile);
+        const audioElement: HTMLAudioElement = this.audioPlayer.nativeElement;
+        this.audioUrl = fileURL;
+        audioElement.load();
+      });
   }
 
   submit() {
@@ -79,9 +88,9 @@ export class TestComponent {
     this.startTimer();
     setTimeout(() => {
       this.currentQuiz.isReadOnly = true;
-      this.testService.submitTest(this.currentQuiz).subscribe(() => {
-        this.router.navigate(['']);
-      });
+      // this.testService.submitTest(this.currentQuiz).subscribe(() => {
+      //   this.router.navigate(['']);
+      // });
     }, this.totalSeconds * 1000);
   }
 

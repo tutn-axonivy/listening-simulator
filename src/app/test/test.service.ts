@@ -6,6 +6,12 @@ import { Observable } from 'rxjs';
 export class TestService {
   constructor(private httpClient: HttpClient) {}
 
+  getAudioFile(fileName: string): Observable<any> {
+    return this.httpClient.get<any>(`http://localhost:3000/file/${fileName}`, {
+      responseType: 'blob' as 'json',
+    });
+  }
+
   getAllResult(): Observable<any> {
     return this.httpClient.get<any>(`http://localhost:3000/results`);
   }
