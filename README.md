@@ -1,4 +1,4 @@
-Download nodejs and setup from this link [text](https://nodejs.org/en/download)
+Download [NodeJS](https://nodejs.org/en/download) and setup
 
 Run file run-server.bat
 Run file run-web.bat
