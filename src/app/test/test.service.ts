@@ -6,23 +6,15 @@ import { Observable } from 'rxjs';
 export class TestService {
   constructor(private httpClient: HttpClient) {}
 
-  getAudioFile(fileName: string): Observable<any> {
-    return this.httpClient.get<any>(`http://localhost:3000/file/${fileName}`, {
-      responseType: 'blob' as 'json',
-    });
-  }
-
   getAllResult(): Observable<any> {
-    return this.httpClient.get<any>(`http://localhost:3000/results`);
+    return this.httpClient.get<any>(`/results`);
   }
 
   getResultById(resultId: number): Observable<any> {
-    return this.httpClient.get<any>(
-      `http://localhost:3000/results/${resultId}`
-    );
+    return this.httpClient.get<any>(`/results/${resultId}`);
   }
 
   submitTest(result: any): Observable<any> {
-    return this.httpClient.post<any>('http://localhost:3000/results', result);
+    return this.httpClient.post<any>('/results', result);
   }
 }

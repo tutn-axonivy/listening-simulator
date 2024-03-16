@@ -11,7 +11,7 @@ import { QuizService } from '../quizzes/quizzes.service';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { TestService } from '../test/test.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { each } from 'lodash';
+import { each } from 'lodash-es';
 
 @Component({
   selector: 'app-result',

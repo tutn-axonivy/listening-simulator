@@ -4,31 +4,21 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QuizService {
-  baseUrl: string = 'http://localhost:3000';
-
   constructor(private httpClient: HttpClient) {}
 
   getAllQuiz(): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/quizzes`);
+    return this.httpClient.get(`/quizzes`);
   }
 
   getById(id: number): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/quizzes/${id}`);
+    return this.httpClient.get(`/quizzes/${id}`);
   }
 
   createQuiz(quiz: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/quizzes`, quiz);
+    return this.httpClient.post(`/quizzes`, quiz);
   }
 
   editQuiz(quiz: any): Observable<any> {
-    return this.httpClient.put(`${this.baseUrl}/quizzes/${quiz.id}`, quiz);
-  }
-
-  uploadAudioFile(file: File): Observable<any> {
-    const formData: FormData = new FormData();
-
-    formData.append('file', file);
-
-    return this.httpClient.post<any>('http://localhost:3000/upload', formData);
+    return this.httpClient.put(`/quizzes/${quiz.id}`, quiz);
   }
 }

@@ -7,12 +7,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
+import { toArray } from 'lodash-es';
+import { FileService } from '../file.service';
 import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
 import { QuizService } from '../quizzes/quizzes.service';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { TestService } from './test.service';
-import { CommonUtils } from '../../utils/common-utils';
-import { toArray } from 'lodash';
 
 @Component({
   selector: 'app-test',
@@ -54,6 +54,7 @@ export class TestComponent {
     private quizService: QuizService,
     private route: ActivatedRoute,
     private testService: TestService,
+    private fileService: FileService,
     private router: Router
   ) {
     this.route.paramMap.subscribe((paramMap: any) => {
@@ -65,7 +66,7 @@ export class TestComponent {
           this.minutes = Math.floor(this.totalSeconds / 60);
           this.seconds = this.totalSeconds % 60;
           this.generateMapQuestion(quiz.questions);
-          this.getAudioFile(this.result.fileName);
+          this.getAudioFile(quiz.fileName);
         });
       }
     });
@@ -78,7 +79,7 @@ export class TestComponent {
   }
 
   getAudioFile(fileName: string) {
-    this.testService.getAudioFile(fileName).subscribe((audioFile: Blob) => {
+    this.fileService.getFile(fileName).subscribe((audioFile: Blob) => {
       const fileURL = URL.createObjectURL(audioFile);
       const audioElement: HTMLAudioElement = this.audioPlayer.nativeElement;
       this.audioUrl = fileURL;
