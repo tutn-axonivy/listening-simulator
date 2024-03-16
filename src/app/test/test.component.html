@@ -46,9 +46,6 @@
     </div>
   </div>
   <button
-    [disabled]="
-      currentQuiz.studentName === null || currentQuiz.studentName === ''
-    "
     mat-raised-button
     color="primary"
     (click)="submit()"
@@ -58,7 +55,11 @@
   </button>
   } @else {
   <button
-    [disabled]="currentQuiz.studentName === ''"
+    [disabled]="
+      !currentQuiz.studentName ||
+      currentQuiz.studentName === null ||
+      currentQuiz.studentName === ''
+    "
     mat-raised-button
     color="primary"
     (click)="onStartTest()"

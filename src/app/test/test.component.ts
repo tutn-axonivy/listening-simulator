@@ -37,7 +37,7 @@ export class TestComponent {
     name: '',
     timeout: null,
     questions: [],
-    studentName: '',
+    studentName: null,
   };
 
   minutes: number = 0;
@@ -62,6 +62,7 @@ export class TestComponent {
           this.seconds = this.totalSeconds % 60;
           this.getAudioFile(this.currentQuiz.fileName);
         });
+        this.getStudentName();
       }
     });
   }
@@ -105,5 +106,16 @@ export class TestComponent {
 
   ngOnDestroy() {
     clearInterval(this.interval);
+  }
+
+  getStudentName() {
+    console.log(
+      this.currentQuiz.studentName === null ||
+        this.currentQuiz.studentName === ''
+    );
+    return (
+      this.currentQuiz.studentName === null ||
+      this.currentQuiz.studentName === ''
+    );
   }
 }
