@@ -77,8 +77,10 @@ export class TestComponent {
   }
 
   submit() {
-    this.testService.submitTest(this.currentQuiz).subscribe();
-    this.router.navigate(['']);
+    this.currentQuiz.id = this.generateObjectId();
+    this.testService.submitTest(this.currentQuiz).subscribe(() => {
+      this.router.navigate(['']);
+    });
   }
 
   onStartTest() {
@@ -86,10 +88,7 @@ export class TestComponent {
     this.audioPlayer.nativeElement.play();
     this.startTimer();
     setTimeout(() => {
-      this.currentQuiz.isReadOnly = true;
-      this.testService.submitTest(this.currentQuiz).subscribe(() => {
-        this.router.navigate(['']);
-      });
+      this.submit();
     }, this.totalSeconds * 1000);
   }
 
@@ -117,5 +116,13 @@ export class TestComponent {
       this.currentQuiz.studentName === null ||
       this.currentQuiz.studentName === ''
     );
+  }
+
+  generateObjectId() {
+    const timestamp = ((new Date().getTime() / 1000) | 0).toString(16);
+    const machineId = Math.floor(Math.random() * 16777216).toString(16);
+    const counter = Math.floor(Math.random() * 16777216).toString(16);
+
+    return timestamp + machineId + counter;
   }
 }
