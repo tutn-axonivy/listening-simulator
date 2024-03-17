@@ -9,8 +9,12 @@ const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
+    var uploadDir = `${__dirname}/upload`;
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
     // Specify the directory where uploaded files will be stored
-    cb(null, `${__dirname}/upload`);
+    cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
     // Define the file name for the uploaded file
@@ -21,7 +25,7 @@ const storage = multer.diskStorage({
 // Create an instance of Multer with the storage configuration
 const upload = multer({ storage: storage });
 
-server.use(express.static(`${__dirname}/dist`))
+server.use(express.static(`${__dirname}/dist`));
 server.use(cors({ origin: "http://localhost:4200" }));
 server.use(express.json());
 
@@ -70,7 +74,7 @@ server.delete("/file/:filename", (req, res) => {
       res.status(200).send({ message: "File removed successfully" });
     });
   } else {
-    return res.status(200).send({message: 'File removed successfully'});
+    return res.status(200).send({ message: "File removed successfully" });
   }
 });
 
