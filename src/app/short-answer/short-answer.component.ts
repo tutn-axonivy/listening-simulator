@@ -12,6 +12,7 @@ import {
 } from '@wfpena/angular-wysiwyg';
 import { FileService } from '../file.service';
 import { map } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-short-answer',
@@ -23,6 +24,7 @@ import { map } from 'rxjs';
     MatInputModule,
     MatButtonModule,
     AngularEditorModule,
+    MatIconModule,
   ],
   providers: [FileService],
   templateUrl: './short-answer.component.html',
@@ -38,8 +40,8 @@ export class ShortAnswerComponent implements OnInit {
 
   constructor(private fileService: FileService) {}
   ngOnInit(): void {
-    if (this.question.imageUrl) {
-      this.getImage(this.question.imageUrl);
+    if (this.question.imageName) {
+      this.getImage(this.question.imageName);
     }
   }
 
@@ -49,11 +51,13 @@ export class ShortAnswerComponent implements OnInit {
     upload: (file) => {
       return this.fileService.uploadAudioFile(file).pipe(
         map((response) => {
-          const imageUrl = response.fileName;
-          this.question.imageUrl = imageUrl;
+          const imageName = response.fileName;
+          this.question.imageName = imageName;
+          this.getImage(imageName);
+          console.log(this.question.content);
           return {
             ...response,
-            body: { imageUrl },
+            body: { imageUrl: imageName },
           } as HttpResponse<UploadResponse>;
         })
       );
@@ -63,12 +67,10 @@ export class ShortAnswerComponent implements OnInit {
   getImage(fileName: string) {
     this.fileService.getFile(fileName).subscribe((audioFile: Blob) => {
       const fileURL = URL.createObjectURL(audioFile);
-      this.question.title = this.question.title.replace(
-        this.question.imageUrl,
+      this.question.content = this.question.content.replace(
+        this.question.imageName,
         fileURL
       );
-
-      console.log(this.question.title);
     });
   }
 

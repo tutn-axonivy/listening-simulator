@@ -9,6 +9,11 @@
 
 .question-type-container {
   display: flex;
+  margin-top: 20px;
+}
+
+.question-group {
+  height: fit-content;
 }
 
 .card {
@@ -29,7 +34,9 @@
 
 .question {
   display: flex;
-  margin-top: 30px;
+  padding: 20px;
+  margin: 20px 0;
+  height: fit-content;
 }
 
 .upload-file {

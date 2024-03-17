@@ -33,7 +33,7 @@
         id="file"
       />
       <span class="file-name">{{
-        selectedFile ? selectedFile?.name : this.currentQuiz.fileName
+        selectedFile ? selectedFile?.name : this.currentQuiz.audioName
       }}</span>
     </div>
   </div>
@@ -55,7 +55,7 @@
   </div>
 
   <div class="question-group">
-    <div
+    <mat-card
       class="question"
       *ngFor="let question of currentQuiz.questions; let i = index"
     >
@@ -68,31 +68,35 @@
         ></app-multiple-choices>
         <div class="actions">
           <button
-            mat-button
+            mat-icon-button
+            color="warn"
             type="button"
             class="btn btn-danger"
             (click)="removeQuestion(i)"
           >
-            ❌
+            <mat-icon>delete</mat-icon>
           </button>
         </div>
       </div>
 
       } @case(1) {
-      <app-short-answer
-        [question]="question"
-        [isEditting]="true"
-      ></app-short-answer>
-      <button
-        mat-button
-        type="button"
-        class="btn btn-danger"
-        (click)="removeQuestion(i)"
-      >
-        ❌
-      </button>
+      <div class="question">
+        <app-short-answer
+          [question]="question"
+          [isEditting]="true"
+        ></app-short-answer>
+        <button
+          mat-icon-button
+          color="warn"
+          type="button"
+          class="btn btn-danger"
+          (click)="removeQuestion(i)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
       } }
-    </div>
+    </mat-card>
   </div>
 
   <div class="question-type-container">

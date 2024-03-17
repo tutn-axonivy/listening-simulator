@@ -4,7 +4,8 @@
       @if (isEditting) {
       <angular-editor
         name="questionContent"
-        id="editor1"
+        [id]="question.id"
+        [config]="config"
         [(ngModel)]="question.content"
       ></angular-editor>
       } @else {
@@ -46,12 +47,13 @@
             />
           </mat-form-field>
           <button
-            mat-button
+            mat-icon-button
+            color="warn"
             type="button"
             class="btn btn-danger"
             (click)="removeChoice(i)"
           >
-            ❌
+            <mat-icon>delete</mat-icon>
           </button>
           } @else {
           <p class="question-text">{{ choice.content }}</p>
@@ -63,11 +65,13 @@
     <button
       *ngIf="isEditting"
       mat-button
+      color="primary"
       type="button"
       class="btn btn-primary"
       (click)="addChoice()"
     >
-      ➕
+      <mat-icon>add</mat-icon>
+      More option
     </button>
   </div>
 </form>

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TestService {
-  baseUrl: string = 'http://localhost:3000'
+  baseUrl: string = 'http://localhost:3000';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -12,8 +12,18 @@ export class TestService {
     return this.httpClient.get<any>(`${this.baseUrl}/results`);
   }
 
-  getResultById(resultId: number): Observable<any> {
+  getResultByStudentName(studentName: string): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/results?studentName_like=${studentName}`
+    );
+  }
+
+  getResultById(resultId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/results/${resultId}`);
+  }
+
+  deleteResultById(resultId: string): Observable<any> {
+    return this.httpClient.delete<any>(`${this.baseUrl}/results/${resultId}`);
   }
 
   submitTest(result: any): Observable<any> {

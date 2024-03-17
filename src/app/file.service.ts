@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpEvent, HttpResponse } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
+import { UploadResponse } from '@wfpena/angular-wysiwyg';
 
 @Injectable({ providedIn: 'root' })
 export class FileService {

@@ -13,6 +13,7 @@ import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.c
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { QuizService } from './quizzes.service';
 import { CommonUtils } from '../../utils/common-utils';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-quizzes',
@@ -27,13 +28,13 @@ import { CommonUtils } from '../../utils/common-utils';
     MatInputModule,
     MultipleChoicesComponent,
     ShortAnswerComponent,
+    MatIconModule,
   ],
   providers: [QuizService, FileService],
   templateUrl: './quizzes.component.html',
   styleUrl: './quizzes.component.css',
 })
 export class QuizzesComponent implements OnDestroy {
-  fileName: string = '';
   selectedFile: any;
   currentQuiz: any = {
     name: '',
@@ -41,7 +42,7 @@ export class QuizzesComponent implements OnDestroy {
     questions: [],
   };
   currentQuestion: any = {
-    title: '',
+    content: '',
     description: '',
     type: null,
     choices: [],
@@ -86,7 +87,7 @@ export class QuizzesComponent implements OnDestroy {
           id: CommonUtils.generateRandomId(),
           content: '',
           type: questionType,
-          choices: this.defaultShortAnswerChoices(),
+          choices: [],
         };
         break;
       default:
@@ -139,9 +140,9 @@ export class QuizzesComponent implements OnDestroy {
 
   onSaveClick() {
     if (this.selectedFile) {
-      if (this.selectedFile.name !== this.currentQuiz.fileName) {
+      if (this.selectedFile.name !== this.currentQuiz.audioName) {
         const deleteSub = this.fileServie
-          .deleteFile(this.currentQuiz.fileName)
+          .deleteFile(this.currentQuiz.audioName)
           .subscribe();
         this.subscription.push(deleteSub);
       }
@@ -157,7 +158,7 @@ export class QuizzesComponent implements OnDestroy {
       .subscribe((res) => {
         this.subscription.push(uploadSub);
         if (res) {
-          this.currentQuiz.fileName = res.fileName;
+          this.currentQuiz.audioName = res.fileName;
           this.saveOrEditQuiz(this.currentQuiz);
         }
       });

@@ -6,10 +6,10 @@
         [name]="question.id"
         [id]="question.id"
         [config]="config"
-        [(ngModel)]="question.title"
+        [(ngModel)]="question.content"
       ></angular-editor>
       } @else {
-      <span [innerHTML]="question.title"></span>
+      <span [innerHTML]="question.content"></span>
       }
     </div>
 
@@ -23,7 +23,7 @@
           <mat-label>No.</mat-label>
           <input
             matInput
-            [name]="i.toString()"
+            [name]="choice.id"
             type="text"
             class="form-control"
             [(ngModel)]="choice.index"
@@ -65,12 +65,13 @@
         } }
         <button
           *ngIf="isEditting"
-          mat-button
+          mat-icon-button
+          color="warn"
           type="button"
           class="btn btn-danger"
           (click)="removeChoice(i)"
         >
-          ❌
+          <mat-icon>delete</mat-icon>
         </button>
       </div>
     </div>
@@ -78,11 +79,14 @@
     <button
       *ngIf="isEditting"
       mat-button
+      color="primary"
       type="button"
       class="btn btn-primary"
+      style="margin-top: 20px"
       (click)="addChoice()"
     >
-      ➕
+      <mat-icon>add</mat-icon>
+      More option
     </button>
   </div>
 </form>

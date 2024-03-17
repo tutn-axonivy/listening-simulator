@@ -7,7 +7,12 @@ import { MatInputModule } from '@angular/material/input';
 import {
   AngularEditorConfig,
   AngularEditorModule,
+  UploadResponse,
 } from '@wfpena/angular-wysiwyg';
+import { FileService } from '../file.service';
+import { map } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-multiple-choices',
   standalone: true,
@@ -18,18 +23,28 @@ import {
     MatInputModule,
     MatButtonModule,
     AngularEditorModule,
+    MatIconModule,
   ],
+  providers: [FileService],
   templateUrl: './multiple-choices.component.html',
   styleUrl: './multiple-choices.component.css',
 })
-export class MultipleChoicesComponent {
+export class MultipleChoicesComponent implements OnInit {
   @Input() question: any;
   @Input() isEditting: boolean = false;
   @Input() isReadOnly: boolean = false;
   @Input() isTesting: boolean = false;
   @Output() onValuChange = new EventEmitter();
   selectedAnswer: number | undefined = undefined;
-  config: AngularEditorConfig = {};
+
+  constructor(private fileService: FileService) {}
+
+  ngOnInit(): void {
+    if (this.question.imageName) {
+      this.getImage(this.question.imageName);
+    }
+  }
+
   CHOICE_INDEX = [
     'A',
     'B',
@@ -58,6 +73,34 @@ export class MultipleChoicesComponent {
     'Y',
     'Z',
   ];
+
+  config: AngularEditorConfig = {
+    editable: true,
+    uploadUrl: 'http://localhost:3000/file',
+    upload: (file) => {
+      return this.fileService.uploadAudioFile(file).pipe(
+        map((response) => {
+          const imageName = response.fileName;
+          this.question.imageName = imageName;
+          this.getImage(imageName);
+          return {
+            ...response,
+            body: { imageUrl: imageName },
+          } as HttpResponse<UploadResponse>;
+        })
+      );
+    },
+  };
+
+  getImage(fileName: string) {
+    this.fileService.getFile(fileName).subscribe((audioFile: Blob) => {
+      const fileURL = URL.createObjectURL(audioFile);
+      this.question.content = this.question.content.replace(
+        this.question.imageName,
+        fileURL
+      );
+    });
+  }
 
   addChoice() {
     this.question.choices.push({ content: '' });

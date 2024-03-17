@@ -1,8 +1,26 @@
 <mat-tab-group>
   <mat-tab label="Tests">
-    <div class="container">
-      @for (quiz of quizzes; track $index) {
-      <div class="quizzes">
+    <ng-template matTabContent>
+      <div class="actions">
+        <button mat-raised-button color="primary" (click)="addNewQuiz()">
+          Add New Quiz
+        </button>
+        <mat-form-field>
+          <input
+            placeholder="Search"
+            matInput
+            name="searchQuiz"
+            type="search"
+            class="form-control"
+            id="searchQuiz"
+            [(ngModel)]="searchQuizString"
+            (ngModelChange)="onQuizSearch($event)"
+          />
+          <mat-icon matPrefix class="my-icon">search</mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="container">
+        @for (quiz of quizzes; track $index) {
         <mat-card class="card">
           <mat-card-content class="card-content">
             <h2 class="mat-display-2 card-content-text">
@@ -16,32 +34,70 @@
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="testTest(quiz.id)">Test</button>
               <button mat-menu-item (click)="editQuiz(quiz.id)">Edit</button>
-              <button mat-menu-item (click)="onDeleteClick(quiz.id)">Delete</button>
+              <button mat-menu-item (click)="onDeleteClick(quiz)">
+                Delete
+              </button>
             </mat-menu>
           </mat-card-actions>
         </mat-card>
+        }
       </div>
-      }
-      <div class="actions">
-        <button mat-raised-button color="primary" (click)="addNewQuiz()">
-          Add New Quiz
-        </button>
-      </div>
-    </div>
+    </ng-template>
   </mat-tab>
   <mat-tab label="Results">
-    <div class="container">
-      @for (result of results; track $index) {
-      <div class="quizzes">
-        <mat-card class="card" (click)="viewResult(result.id)">
-          <mat-card-content class="result"
-            ><h2 class="mat-display-2">
-              {{ result.studentName }}
-            </h2></mat-card-content
-          >
-        </mat-card>
+    <ng-template matTabContent>
+      <div class="search">
+        <mat-form-field>
+          <input
+            placeholder="Search"
+            matInput
+            name="searchResult"
+            type="search"
+            class="form-control"
+            id="searchResult"
+            [(ngModel)]="searchResultString"
+            (ngModelChange)="onResultSearch($event)"
+          />
+          <mat-icon matPrefix class="my-icon">search</mat-icon>
+        </mat-form-field>
       </div>
-      }
-    </div>
+      <div class="container">
+        @for (result of results; track $index) {
+        <div class="quizzes">
+          <mat-card class="result-card">
+            <mat-card-title class="card-result-title"
+              ><h1 class="mat-display-2" (click)="viewResult(result.id)">
+                {{ result.studentName }}
+              </h1>
+              <mat-card-actions>
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="viewResult(result.id)">
+                    View
+                  </button>
+                  <button
+                    mat-menu-item
+                    (click)="onDeleteResultClick(result.id)"
+                  >
+                    Delete
+                  </button>
+                </mat-menu>
+              </mat-card-actions>
+            </mat-card-title>
+            <mat-card-content
+              class="card-result-content"
+              *ngIf="result.correctPoint && result.totalPoint"
+              (click)="viewResult(result.id)"
+            >
+              Point: {{ result.correctPoint }}/{{ result.totalPoint }} <br />
+              Test date: {{ result.testDate }}
+            </mat-card-content>
+          </mat-card>
+        </div>
+        }
+      </div>
+    </ng-template>
   </mat-tab>
 </mat-tab-group>

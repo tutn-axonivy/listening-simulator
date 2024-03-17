@@ -12,6 +12,10 @@ export class QuizService {
     return this.httpClient.get(`${this.baseUrl}/quizzes`);
   }
 
+  searchQuizByName(name: string): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/quizzes?name_like=${name}`);
+  }
+
   getById(id: number): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/quizzes/${id}`);
   }

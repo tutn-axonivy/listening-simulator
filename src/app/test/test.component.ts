@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
-import { toArray } from 'lodash-es';
+import { each, toArray } from 'lodash-es';
 import { FileService } from '../file.service';
 import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
 import { QuizService } from '../quizzes/quizzes.service';
@@ -69,7 +69,7 @@ export class TestComponent {
           this.minutes = Math.floor(this.totalSeconds / 60);
           this.seconds = this.totalSeconds % 60;
           this.generateMapQuestion(quiz.questions);
-          this.getAudioFile(quiz.fileName);
+          this.getAudioFile(quiz.audioName);
         });
       }
     });
@@ -103,7 +103,9 @@ export class TestComponent {
 
   submit() {
     this.result.questions = toArray(this.mapQuestionById);
+    this.result.testDate = this.getCurrentDate();
     this.result.quizId = this.quiz.id;
+    this.calculatePoint();
     this.testService.submitTest(this.result).subscribe(() => {
       this.router.navigate(['']);
     });
@@ -134,6 +136,44 @@ export class TestComponent {
       ...this.mapQuestionById[questionId],
       answer: choiceId,
     };
+  }
+
+  private getCurrentDate() {
+    const currentDate = new Date();
+
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const year = currentDate.getFullYear();
+
+    const formattedDate = `${day}/${month}/${year}`;
+
+    return formattedDate;
+  }
+
+  private calculatePoint() {
+    let totalPoint = 0;
+    let correctPoint = 0;
+    each(this.result.questions, (question) => {
+      if (question.type === 0) {
+        // Multiple choices
+        totalPoint++;
+        if (question.answer === question.correctAnswer) {
+          correctPoint++;
+        }
+      }
+
+      if (question.type === 1) {
+        // Short answer
+        each(question.choices, (choice) => {
+          totalPoint++;
+          if (choice.answer === choice.content) {
+            correctPoint++;
+          }
+        });
+      }
+    });
+    this.result.totalPoint = totalPoint;
+    this.result.correctPoint = correctPoint;
   }
 
   ngOnDestroy() {
