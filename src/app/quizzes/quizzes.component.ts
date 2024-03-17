@@ -142,11 +142,10 @@ export class QuizzesComponent implements OnDestroy {
       if (this.selectedFile.name !== this.currentQuiz.fileName) {
         const deleteSub = this.fileServie
           .deleteFile(this.currentQuiz.fileName)
-          .subscribe(() => {
-            this.uploadFile();
-          });
+          .subscribe(() => {});
         this.subscription.push(deleteSub);
       }
+      this.uploadFile();
     } else {
       this.saveOrEditQuiz(this.currentQuiz);
     }

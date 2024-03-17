@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import {
   provideHttpClient,
   withInterceptors,
-  withInterceptorsFromDi
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -14,10 +14,7 @@ import { apiInterceptor } from './interceptor/api.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideClientHydration(),
-    provideHttpClient(
-      withInterceptorsFromDi(),
-      withInterceptors([apiInterceptor]),
-    ),
+    provideHttpClient(),
     provideRouter(routes),
     provideAnimationsAsync(),
   ],

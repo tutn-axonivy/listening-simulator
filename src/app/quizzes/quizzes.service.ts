@@ -4,21 +4,23 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QuizService {
+  baseUrl: string = 'http://localhost:3000'
+
   constructor(private httpClient: HttpClient) {}
 
   getAllQuiz(): Observable<any> {
-    return this.httpClient.get(`/quizzes`);
+    return this.httpClient.get(`${this.baseUrl}/quizzes`);
   }
 
   getById(id: number): Observable<any> {
-    return this.httpClient.get(`/quizzes/${id}`);
+    return this.httpClient.get(`${this.baseUrl}/quizzes/${id}`);
   }
 
   createQuiz(quiz: any): Observable<any> {
-    return this.httpClient.post(`/quizzes`, quiz);
+    return this.httpClient.post(`${this.baseUrl}/quizzes`, quiz);
   }
 
   editQuiz(quiz: any): Observable<any> {
-    return this.httpClient.put(`/quizzes/${quiz.id}`, quiz);
+    return this.httpClient.put(`${this.baseUrl}/quizzes/${quiz.id}`, quiz);
   }
 }

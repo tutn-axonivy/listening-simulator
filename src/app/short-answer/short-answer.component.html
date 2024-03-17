@@ -39,7 +39,7 @@
         </p>
         @if (choice.answer !== choice.content) {
         <p class="answer incorrect">&nbsp;&nbsp;{{ choice.content }}</p>
-        } } @else {
+        } } @else { @if (isTesting) {
         <mat-form-field>
           <mat-label>Answer</mat-label>
           <input
@@ -47,10 +47,21 @@
             [name]="choice + i"
             type="text"
             class="form-control"
-            [(ngModel)]="isEditting ? choice.content : choice.answer"
+            [(ngModel)]="choice.answer"
           />
         </mat-form-field>
-        }
+        } @else {
+        <mat-form-field>
+          <mat-label>Answer</mat-label>
+          <input
+            matInput
+            [name]="choice + i"
+            type="text"
+            class="form-control"
+            [(ngModel)]="choice.content"
+          />
+        </mat-form-field>
+        } }
         <button
           *ngIf="isEditting"
           mat-button
