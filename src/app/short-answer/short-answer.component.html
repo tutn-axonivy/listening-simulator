@@ -23,14 +23,14 @@
           <mat-label>No.</mat-label>
           <input
             matInput
-            [name]="choice.id"
+            [name]="i.toString()"
             type="text"
             class="form-control"
             [(ngModel)]="choice.index"
           />
         </mat-form-field>
         } @else {
-        <p class="question-text">{{ choice.index }}</p>
+        <h2 class="mat-display 2 question-text">{{ choice.index }}</h2>
         } @if (isReadOnly) {
         <p
           class="answer"

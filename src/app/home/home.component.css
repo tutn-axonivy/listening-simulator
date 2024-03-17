@@ -7,6 +7,15 @@
   grid-gap: 20px; /* Optional: Add gap between grid items */
 }
 
+.result-container {
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 120px;
+  grid-gap: 20px; /* Optional: Add gap between grid items */
+}
+
 .card {
   display: flex;
   flex-direction: row;

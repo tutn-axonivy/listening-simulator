@@ -106,6 +106,7 @@ export class TestComponent {
     this.result.testDate = this.getCurrentDate();
     this.result.quizId = this.quiz.id;
     this.calculatePoint();
+    console.log(this.result)
     this.testService.submitTest(this.result).subscribe(() => {
       this.router.navigate(['']);
     });

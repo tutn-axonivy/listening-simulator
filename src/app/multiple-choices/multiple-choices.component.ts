@@ -95,10 +95,14 @@ export class MultipleChoicesComponent implements OnInit {
   getImage(fileName: string) {
     this.fileService.getFile(fileName).subscribe((audioFile: Blob) => {
       const fileURL = URL.createObjectURL(audioFile);
-      this.question.content = this.question.content.replace(
-        this.question.imageName,
-        fileURL
-      );
+      const regex = /<img[^>]+src="([^">]+)"/g;
+      const match = regex.exec(this.question.content);
+      if (match) {
+        this.question.content = this.question.content.replace(
+          match[1],
+          fileURL
+        );
+      }
     });
   }
 
