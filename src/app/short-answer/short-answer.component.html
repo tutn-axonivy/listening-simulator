@@ -3,8 +3,9 @@
     <div class="form-group">
       @if (isEditting) {
       <angular-editor
-        name="questionTitle"
-        id="editor1"
+        [name]="question.id"
+        [id]="question.id"
+        [config]="config"
         [(ngModel)]="question.title"
       ></angular-editor>
       } @else {

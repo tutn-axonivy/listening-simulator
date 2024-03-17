@@ -9,6 +9,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { QuizService } from '../quizzes/quizzes.service';
 import { TestService } from '../test/test.service';
+import { filter } from 'lodash';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +36,8 @@ export class HomeComponent {
   constructor(
     private quizService: QuizService,
     private router: Router,
-    private testService: TestService
+    private testService: TestService,
+    private dialog: MatDialog
   ) {
     this.quizService.getAllQuiz().subscribe((quizzes) => {
       this.quizzes = quizzes;
@@ -58,5 +62,26 @@ export class HomeComponent {
 
   editQuiz(quizId: any) {
     this.router.navigate(['edit-quiz', quizId]);
+  }
+
+  onDeleteClick(quizId: number) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      hasBackdrop: true,
+    });
+
+    dialogRef.componentInstance.title = 'Warning';
+    dialogRef.componentInstance.message = 'Confirm to delete this?';
+
+    dialogRef.afterClosed().subscribe((isConfirm) => {
+      if (isConfirm) {
+        this.deleteQuiz(quizId);
+      }
+    });
+  }
+
+  deleteQuiz(quizId: any) {
+    this.quizService.deleteQuiz(quizId).subscribe(() => {
+      this.quizzes = filter(this.quizzes, (quiz) => quiz.id !== quizId);
+    });
   }
 }

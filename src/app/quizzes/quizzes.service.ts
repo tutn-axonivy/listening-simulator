@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QuizService {
-  baseUrl: string = 'http://localhost:3000'
+  baseUrl: string = 'http://localhost:3000';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -22,5 +22,9 @@ export class QuizService {
 
   editQuiz(quiz: any): Observable<any> {
     return this.httpClient.put(`${this.baseUrl}/quizzes/${quiz.id}`, quiz);
+  }
+
+  deleteQuiz(quizId: number): Observable<any> {
+    return this.httpClient.delete(`${this.baseUrl}/quizzes/${quizId}`);
   }
 }

@@ -36,19 +36,26 @@
       @switch (question.type) { @case(0) {
 
       <div class="question">
-        <app-multiple-choices [question]="question" [isTesting]="true" (onValuChange)="onMultipleChoiceSelect($event, question.id)"></app-multiple-choices>
+        <app-multiple-choices
+          [question]="question"
+          [isTesting]="true"
+          (onValuChange)="onMultipleChoiceSelect($event, question.id)"
+        ></app-multiple-choices>
         <div class="actions"></div>
       </div>
 
       } @case(1) {
-      <app-short-answer [question]="question" [isTesting]="true"></app-short-answer>
+      <app-short-answer
+        [question]="question"
+        [isTesting]="true"
+      ></app-short-answer>
       } }
     </div>
   </div>
   <button
     mat-raised-button
     color="primary"
-    (click)="submit()"
+    (click)="onSubmitClick()"
     style="margin-top: 30px"
   >
     Submit

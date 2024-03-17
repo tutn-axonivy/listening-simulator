@@ -13,6 +13,8 @@ import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.c
 import { QuizService } from '../quizzes/quizzes.service';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { TestService } from './test.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-test',
@@ -55,7 +57,8 @@ export class TestComponent {
     private route: ActivatedRoute,
     private testService: TestService,
     private fileService: FileService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.route.paramMap.subscribe((paramMap: any) => {
       const quizId = paramMap.get('quizId');
@@ -84,6 +87,17 @@ export class TestComponent {
       const audioElement: HTMLAudioElement = this.audioPlayer.nativeElement;
       this.audioUrl = fileURL;
       audioElement.load();
+    });
+  }
+
+  onSubmitClick() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+    dialogRef.componentInstance.title = 'Information';
+    dialogRef.componentInstance.message = 'Submit this test?';
+    dialogRef.afterClosed().subscribe((isConfirm) => {
+      if (isConfirm) {
+        this.submit();
+      }
     });
   }
 
