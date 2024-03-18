@@ -29,7 +29,8 @@
 
 .actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
+  margin-top: 16px;
 }
 
 .question {
@@ -41,4 +42,8 @@
 
 .upload-file {
   margin: 0 0 16px 0;
+}
+
+.listening-part-container {
+  flex: 0 0 100%;
 }

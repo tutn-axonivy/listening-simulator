@@ -6,9 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import {
-  AngularEditorModule
-} from '@wfpena/angular-wysiwyg';
+import { AngularEditorModule } from '@wfpena/angular-wysiwyg';
 import { FileService } from '../file.service';
 import { AbstractQuestionComponent } from '../../common/abstract-question.component';
 @Component({
@@ -73,10 +71,11 @@ export class MultipleChoicesComponent
 
     if (this.isEditting) {
       this.question.correctAnswer = this.selectedAnswer;
-    }
-    if (this.isTesting) {
+    } 
+    
+    if (this.isTesting){
       this.question.answer = this.selectedAnswer;
-      this.onValuChange.emit(this.question.choices[index].id);
     }
+    this.onValuChange.emit(this.question.choices[index].id);
   }
 }

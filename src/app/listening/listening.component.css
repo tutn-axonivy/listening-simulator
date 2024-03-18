@@ -42,3 +42,12 @@
 .upload-file {
   margin: 0 0 16px 0;
 }
+
+.backdrop {
+  position: relative;
+  top: -60px;
+  left: 45px;
+  width: 180px;
+  height: 54px;
+  z-index: 100;
+}

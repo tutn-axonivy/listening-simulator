@@ -13,6 +13,7 @@ import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.c
 import { QuizService } from '../quizzes/quizzes.service';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { TestService } from '../test/test.service';
+import { ListeningComponent } from '../listening/listening.component';
 
 @Component({
   selector: 'app-result',
@@ -27,6 +28,7 @@ import { TestService } from '../test/test.service';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    ListeningComponent,
   ],
   providers: [QuizService, TestService],
   templateUrl: './result.component.html',
@@ -36,11 +38,13 @@ export class ResultComponent {
   result: Result = {
     id: '',
     name: '',
-    timeout: 0,
-    audioName: '',
+    timeout: null,
     studentName: '',
-    questions: [],
-    parts: [],
+    listeningParts: [],
+    correctPoint: 0,
+    totalPoint: 0,
+    testDate: '',
+    quizId: '',
   };
 
   constructor(
@@ -53,30 +57,6 @@ export class ResultComponent {
       if (resultId) {
         this.testService.getResultById(resultId).subscribe((result) => {
           this.result = result;
-          this.calculatePoint();
-        });
-      }
-    });
-  }
-
-  private calculatePoint() {
-    this.result.totalPoint = 0;
-    each(this.result.questions, (question) => {
-      if (question.type === 0) {
-        // Multiple choices
-        this.result.totalPoint!++;
-        if (question.answer === question.correctAnswer) {
-          this.result.correctPoint!++;
-        }
-      }
-
-      if (question.type === 1) {
-        // Short answer
-        each(question.choices, (choice) => {
-          this.result.totalPoint!++;
-          if (choice.answer === choice.content) {
-            this.result.correctPoint!++;
-          }
         });
       }
     });
