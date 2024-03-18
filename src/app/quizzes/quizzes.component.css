@@ -9,7 +9,7 @@
 
 .question-type-container {
   display: flex;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .question-group {
@@ -17,14 +17,14 @@
 }
 
 .card {
-  margin: 0 20px 20px 0;
+  margin: 0 16px 16px 0;
   cursor: pointer;
 }
 
 .question-type-item {
   width: 120px;
   text-align: center;
-  margin: 10px 0;
+  margin: 16px 0;
 }
 
 .actions {
@@ -34,11 +34,11 @@
 
 .question {
   display: flex;
-  padding: 20px;
-  margin: 20px 0;
+  padding: 16px;
+  margin: 16px 0;
   height: fit-content;
 }
 
 .upload-file {
-  margin: 0 0 20px 0;
+  margin: 0 0 16px 0;
 }

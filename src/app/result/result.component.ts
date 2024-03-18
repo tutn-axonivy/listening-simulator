@@ -6,12 +6,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { ActivatedRoute, Router } from '@angular/router';
+import { each } from 'lodash-es';
 import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
 import { QuizService } from '../quizzes/quizzes.service';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { TestService } from '../test/test.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { each } from 'lodash-es';
 
 @Component({
   selector: 'app-result',
@@ -36,11 +36,8 @@ export class ResultComponent {
     studentName: '',
     questions: [],
   };
-  totalPoint = 0;
-  correctPoint = 0;
 
   constructor(
-    private quizService: QuizService,
     private route: ActivatedRoute,
     private testService: TestService,
     private router: Router
@@ -57,21 +54,22 @@ export class ResultComponent {
   }
 
   private calculatePoint() {
+    this.result.totalPoint = 0;
     each(this.result.questions, (question) => {
       if (question.type === 0) {
         // Multiple choices
-        this.totalPoint++;
+        this.result.totalPoint++;
         if (question.answer === question.correctAnswer) {
-          this.correctPoint++;
+          this.result.correctPoint++;
         }
       }
 
       if (question.type === 1) {
         // Short answer
         each(question.choices, (choice) => {
-          this.totalPoint++;
+          this.result.totalPoint++;
           if (choice.answer === choice.content) {
-            this.correctPoint++;
+            this.result.correctPoint++;
           }
         });
       }

@@ -9,7 +9,11 @@
         [(ngModel)]="question.content"
       ></angular-editor>
       } @else {
-      <span [innerHTML]="question.content"></span>
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <span [innerHTML]="question.content"></span>
+        </mat-card-content>
+      </mat-card>
       }
     </div>
 
