@@ -15,6 +15,8 @@ import { CommonUtils } from '../../utils/common-utils';
 import { FileService } from '../file.service';
 import { ListeningComponent } from '../listening/listening.component';
 import { QuizService } from './quizzes.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-quizzes',
@@ -38,7 +40,7 @@ export class QuizzesComponent implements OnDestroy {
   currentQuiz: Quiz = {
     id: '',
     name: '',
-    timeout: 0,
+    timeout: null,
     listeningParts: [],
   };
 
@@ -47,7 +49,8 @@ export class QuizzesComponent implements OnDestroy {
   constructor(
     private quizService: QuizService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.route.paramMap.subscribe((paramMap: any) => {
       const quizId = paramMap.get('quizId');
@@ -70,8 +73,22 @@ export class QuizzesComponent implements OnDestroy {
     this.currentQuiz.listeningParts.push(newListeningPart);
   }
 
+  removePart(index: number) {
+    this.currentQuiz.listeningParts.splice(index, 1);
+  }
+
   onSaveClick() {
-    this.saveOrEditQuiz(this.currentQuiz);
+    if (this.currentQuiz.name == '' || this.currentQuiz.timeout === null) {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        hasBackdrop: true,
+      });
+
+      dialogRef.componentInstance.title = 'Warning';
+      dialogRef.componentInstance.message = 'You are missing some fields?';
+      dialogRef.componentInstance.isWarning = true;
+    } else {
+      this.saveOrEditQuiz(this.currentQuiz);
+    }
   }
 
   saveOrEditQuiz(quiz: any) {

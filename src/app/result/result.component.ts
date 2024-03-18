@@ -38,7 +38,7 @@ export class ResultComponent {
   result: Result = {
     id: '',
     name: '',
-    timeout: 0,
+    timeout: null,
     studentName: '',
     listeningParts: [],
     correctPoint: 0,

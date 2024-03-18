@@ -45,7 +45,7 @@
     } @if (isTesting) {
     <div class="form-group">
       <div class="audio">
-        <audio controls #audioPlayer>
+        <audio [id]="data.id" #audioPlayer controls>
           <source [src]="audioUrl" type="audio/mp3" />
         </audio>
       </div>
@@ -54,8 +54,8 @@
     }
 
     <div class="question-group">
-      @for (question of data.questions; track question.id) { @switch (question.type)
-      { @case(0) {
+      @for (question of data.questions; track question.id) { @switch
+      (question.type) { @case(0) {
 
       <div class="question">
         <app-multiple-choices

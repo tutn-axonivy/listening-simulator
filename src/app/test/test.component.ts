@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -42,6 +49,9 @@ import { Result } from '../../common/models/result.model';
 })
 export class TestComponent {
   @ViewChild('audioPlayer') audioPlayer!: ElementRef;
+  @ViewChildren('audioElement') audioElements!: QueryList<
+    ElementRef<HTMLAudioElement>
+  >;
   audioUrl: string = '';
   result: Result = {
     id: '',
@@ -61,7 +71,6 @@ export class TestComponent {
     listeningParts: [],
   };
   subscriptions: Subscription[] = [];
-  mapQuestionById: Record<string, any> = {};
 
   minutes: number = 0;
   seconds: number = 0;
@@ -73,7 +82,6 @@ export class TestComponent {
     private quizService: QuizService,
     private route: ActivatedRoute,
     private testService: TestService,
-    private fileService: FileService,
     private router: Router,
     private dialog: MatDialog
   ) {
@@ -85,24 +93,8 @@ export class TestComponent {
           this.totalSeconds = quiz.timeout * 60;
           this.minutes = Math.floor(this.totalSeconds / 60);
           this.seconds = this.totalSeconds % 60;
-          this.generateMapQuestion(quiz.questions);
         });
       }
-    });
-  }
-
-  generateMapQuestion(questions: any[]) {
-    questions.forEach((question) => {
-      this.mapQuestionById[question.id] = question;
-    });
-  }
-
-  getAudioFile(fileName: string) {
-    this.fileService.getFile(fileName).subscribe((audioFile: Blob) => {
-      const fileURL = URL.createObjectURL(audioFile);
-      const audioElement: HTMLAudioElement = this.audioPlayer.nativeElement;
-      this.audioUrl = fileURL;
-      audioElement.load();
     });
   }
 
@@ -131,10 +123,19 @@ export class TestComponent {
 
   onStartTest() {
     this.isReady = true;
-    // this.audioPlayer.nativeElement.play();
     this.startTimer();
     setTimeout(() => {
-      this.submit();
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        hasBackdrop: true,
+      });
+      dialogRef.componentInstance.title = 'Information';
+      dialogRef.componentInstance.message = "Time's up";
+      dialogRef.componentInstance.isWarning = true;
+      dialogRef.afterClosed().subscribe((isConfirm) => {
+        if (isConfirm) {
+          this.submit();
+        }
+      });
     }, this.totalSeconds * 1000);
   }
 
@@ -148,13 +149,6 @@ export class TestComponent {
       }
     });
     this.subscriptions.push(sub);
-  }
-
-  onMultipleChoiceSelect(choiceId: string, questionId: string) {
-    this.mapQuestionById[questionId] = {
-      ...this.mapQuestionById[questionId],
-      answer: choiceId,
-    };
   }
 
   private getCurrentDate() {

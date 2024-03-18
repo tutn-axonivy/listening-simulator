@@ -5,11 +5,3 @@
 .question-group {
   margin: 16px 0;
 }
-
-.backdrop {
-  width: 300px;
-  height: 55px;
-  top: 220px;
-  position: absolute;
-  z-index: 100;
-}

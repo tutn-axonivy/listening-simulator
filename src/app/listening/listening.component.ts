@@ -1,4 +1,14 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -33,7 +43,7 @@ import { ListeningService } from './listening.service';
   templateUrl: './listening.component.html',
   styleUrl: './listening.component.css',
 })
-export class ListeningComponent implements OnInit, OnDestroy {
+export class ListeningComponent implements AfterViewInit, OnDestroy {
   @Input() data: Listening = {
     name: '',
     questions: [],
@@ -42,6 +52,7 @@ export class ListeningComponent implements OnInit, OnDestroy {
   @Input() isTesting: boolean = false;
   @Input() isEditting: boolean = false;
   @Input() isReadOnly: boolean = false;
+  @ViewChild('audioPlayer') audioPlayer!: ElementRef;
 
   audioUrl: string = '';
 
@@ -60,18 +71,25 @@ export class ListeningComponent implements OnInit, OnDestroy {
 
   subscription: Subscription[] = [];
 
-  constructor(
-    private listeningService: ListeningService,
-    private fileServie: FileService,
-    private route: ActivatedRoute
-  ) {}
-  ngOnInit(): void {
-    console.log(this.data);
+  constructor(private fileService: FileService) {}
+
+  ngAfterViewInit(): void {
+    console.log('After view init', this.audioPlayer);
+    this.getAudioFile(this.data.audioName);
   }
 
   ngOnDestroy(): void {
     this.subscription.forEach((sub) => {
       sub.unsubscribe();
+    });
+  }
+
+  getAudioFile(fileName: string) {
+    this.fileService.getFile(fileName).subscribe((audioFile: Blob) => {
+      const fileURL = URL.createObjectURL(audioFile);
+      const audioElement: HTMLAudioElement = this.audioPlayer.nativeElement;
+      this.audioUrl = fileURL;
+      audioElement.load();
     });
   }
 
@@ -138,14 +156,14 @@ export class ListeningComponent implements OnInit, OnDestroy {
   }
 
   deleteFile() {
-    const deleteSub = this.fileServie
+    const deleteSub = this.fileService
       .deleteFile(this.data.audioName)
       .subscribe();
     this.subscription.push(deleteSub);
   }
 
   uploadFile() {
-    const uploadSub = this.fileServie
+    const uploadSub = this.fileService
       .uploadAudioFile(this.selectedFile)
       .subscribe((res) => {
         this.subscription.push(uploadSub);

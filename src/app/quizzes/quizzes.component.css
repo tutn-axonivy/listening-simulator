@@ -43,3 +43,7 @@
 .upload-file {
   margin: 0 0 16px 0;
 }
+
+.listening-part-container {
+  flex: 0 0 100%;
+}
