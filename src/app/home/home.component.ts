@@ -1,20 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Router } from '@angular/router';
+import { debounce, each, filter } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
 import { QuizService } from '../quizzes/quizzes.service';
 import { TestService } from '../test/test.service';
-import { debounce, each, filter, result } from 'lodash';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
-import { Observable } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
