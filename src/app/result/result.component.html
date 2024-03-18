@@ -1,9 +1,12 @@
 <section>
   <div class="container">
     <div class="form-group">
-      <h1>Name: {{ result.studentName }}</h1>
-      <h3>Point: {{ result.correctPoint }}/{{ result.totalPoint }}</h3>
-      <h4>Test date: {{ result.testDate }}</h4>
+      <h1>
+        <b>{{ result.name }}</b>
+      </h1>
+      <h4><b>Name:</b> {{ result.studentName }}</h4>
+      <h4><b>Point:</b> {{ result.correctPoint }}/{{ result.totalPoint }}</h4>
+      <h4><b>Test date:</b> {{ result.testDate }}</h4>
     </div>
 
     <div class="question-group">
@@ -37,7 +40,7 @@
   mat-raised-button
   color="primary"
   (click)="back()"
-  style="margin-top: 30px"
+  style="margin-top: 16px"
 >
   Back
 </button>

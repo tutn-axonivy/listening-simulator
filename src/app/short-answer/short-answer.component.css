@@ -1,5 +1,5 @@
 .choice-group {
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .question-text {
@@ -8,22 +8,43 @@
   line-height: 60px;
 }
 
-.answer {
-  height: 30px;
+.answer-container {
+  display: flex;
   width: 100%;
+}
+
+.answer {
+  display: flex;
+  height: 30px;
+  width: max-content;
   line-height: 60px;
+  font-weight: bold;
 }
 
 .answer.correct {
   color: var(--success-color);
-  font-weight: bold;
 }
 
 .answer.incorrect {
+  height: 30px;
+  line-height: 60px;
   color: var(--danger-color);
+}
+
+.correct-answer {
+  height: 30px;
+  line-height: 60px;
+  color: var(--success-color);
   font-weight: bold;
+  margin-left: 16px;
+  text-decoration: none;
 }
 
 .form-group {
   display: flex;
+}
+
+.choice-index {
+  width: 50px;
+  margin-right: 16px;
 }

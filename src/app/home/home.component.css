@@ -4,7 +4,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 64px;
-  grid-gap: 20px; /* Optional: Add gap between grid items */
+  grid-gap: 16px; /* Optional: Add gap between grid items */
 }
 
 .result-container {
@@ -13,21 +13,21 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 120px;
-  grid-gap: 20px; /* Optional: Add gap between grid items */
+  grid-gap: 16px; /* Optional: Add gap between grid items */
 }
 
 .card {
   display: flex;
   flex-direction: row;
   height: 64px;
-  margin: 10px 0;
+  margin: 16px 0;
   width: 400px;
   text-overflow: ellipsis;
 }
 
 .result-card {
   height: 120px;
-  margin: 10px 0;
+  margin: 16px 0;
   width: 400px;
   align-items: stretch;
 }
@@ -48,13 +48,13 @@
 .actions {
   display: flex;
   justify-content: space-between;
-  margin: 20px 0;
+  margin: 16px 0;
 }
 
 .search {
   display: flex;
   flex-direction: row-reverse;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .card-content {

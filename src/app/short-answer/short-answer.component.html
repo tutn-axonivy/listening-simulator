@@ -9,7 +9,11 @@
         [(ngModel)]="question.content"
       ></angular-editor>
       } @else {
-      <span [innerHTML]="question.content"></span>
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <span [innerHTML]="question.content"></span>
+        </mat-card-content>
+      </mat-card>
       }
     </div>
 
@@ -19,7 +23,7 @@
     >
       <div class="form-group">
         @if (isEditting) {
-        <mat-form-field style="width: 50px; margin-right: 10px">
+        <mat-form-field class="choice-index">
           <mat-label>No.</mat-label>
           <input
             matInput
@@ -30,17 +34,28 @@
           />
         </mat-form-field>
         } @else {
-        <h2 class="mat-display 2 question-text">{{ choice.index }}</h2>
-        } @if (isReadOnly) {
-        <p
-          class="answer"
-          [ngClass]="{ correct: choice.answer === choice.content }"
-        >
-          {{ choice.answer }}
+        <p class="mat-display 2 question-text">
+          <b>{{ choice.index }}.&nbsp;</b>
         </p>
-        @if (choice.answer !== choice.content) {
-        <p class="answer incorrect">&nbsp;&nbsp;{{ choice.content }}</p>
-        } } @else { @if (isTesting) {
+        } @if (isReadOnly) {
+        <div class="answer-container">
+          <div
+            class="answer"
+            [ngClass]="{
+              correct: choice.answer === choice.content,
+              incorrect: choice.answer !== choice.content
+            }"
+          >
+            {{ choice.answer }}
+          </div>
+
+          @if (choice.answer !== choice.content) {
+          <div class="correct-answer">
+            {{ choice.content }}
+          </div>
+          }
+        </div>
+        } @else { @if (isTesting) {
         <mat-form-field>
           <mat-label>Answer</mat-label>
           <input
@@ -82,7 +97,7 @@
       color="primary"
       type="button"
       class="btn btn-primary"
-      style="margin-top: 20px"
+      style="margin-top: 16px"
       (click)="addChoice()"
     >
       <mat-icon>add</mat-icon>

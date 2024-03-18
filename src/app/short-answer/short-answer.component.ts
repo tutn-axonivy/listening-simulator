@@ -13,6 +13,7 @@ import {
 import { FileService } from '../file.service';
 import { map } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-short-answer',
@@ -25,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     AngularEditorModule,
     MatIconModule,
+    MatCardModule,
   ],
   providers: [FileService],
   templateUrl: './short-answer.component.html',
@@ -47,6 +49,7 @@ export class ShortAnswerComponent implements OnInit {
 
   config: AngularEditorConfig = {
     editable: true,
+    rawPaste: true,
     uploadUrl: 'http://localhost:3000/file',
     upload: (file) => {
       return this.fileService.uploadAudioFile(file).pipe(

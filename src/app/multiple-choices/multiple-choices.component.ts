@@ -13,6 +13,7 @@ import { FileService } from '../file.service';
 import { map } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-multiple-choices',
   standalone: true,
@@ -24,6 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     AngularEditorModule,
     MatIconModule,
+    MatCardModule,
   ],
   providers: [FileService],
   templateUrl: './multiple-choices.component.html',
