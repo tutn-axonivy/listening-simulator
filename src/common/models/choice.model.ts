@@ -4,5 +4,4 @@ export interface Choice {
   index?: string;
   answer?: string;
   correctAnswer?: string;
-  
 }

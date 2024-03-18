@@ -40,7 +40,7 @@
         <app-multiple-choices
           [question]="question"
           [isTesting]="true"
-          (onValuChange)="onMultipleChoiceSelect($event, question.id)"
+          (onValuChange)="onMultipleChoiceSelect($event, question.id!)"
         ></app-multiple-choices>
         <div class="actions"></div>
       </div>

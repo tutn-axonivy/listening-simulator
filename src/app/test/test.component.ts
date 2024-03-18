@@ -16,6 +16,7 @@ import { TestService } from './test.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
 import { Subscription, interval } from 'rxjs';
+import { Quiz } from '../../common/models/quiz.model';
 
 @Component({
   selector: 'app-test',
@@ -44,8 +45,15 @@ export class TestComponent {
     questions: [],
     studentName: null,
   };
+  quiz: Quiz = {
+    id: '',
+    name: '',
+    timeout: null,
+    questions: [],
+    audioName: '',
+    parts: [],
+  };
   subscriptions: Subscription[] = [];
-  quiz: any;
   mapQuestionById: Record<string, any> = {};
 
   minutes: number = 0;
@@ -72,6 +80,7 @@ export class TestComponent {
           this.seconds = this.totalSeconds % 60;
           this.generateMapQuestion(quiz.questions);
           this.getAudioFile(quiz.audioName);
+          console.log(this.quiz);
         });
       }
     });

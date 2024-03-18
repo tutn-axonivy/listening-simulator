@@ -4,6 +4,7 @@ import { AngularEditorConfig, UploadResponse } from '@wfpena/angular-wysiwyg';
 import { map } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { Question } from '../common/models/question.model';
+import { CommonUtils } from '../utils/common-utils';
 
 @Component({
   template: '',
@@ -55,7 +56,10 @@ export abstract class AbstractQuestionComponent implements OnInit {
   }
 
   addChoice() {
-    this.question.choices.push({ content: '' });
+    this.question.choices.push({
+      id: CommonUtils.generateRandomId(),
+      content: '',
+    });
   }
 
   removeChoice(index: number) {
