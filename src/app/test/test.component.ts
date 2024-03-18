@@ -17,6 +17,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
 import { Subscription, interval } from 'rxjs';
 import { Quiz } from '../../common/models/quiz.model';
+import { ListeningComponent } from '../listening/listening.component';
+import { CommonUtils } from '../../utils/common-utils';
+import { Result } from '../../common/models/result.model';
 
 @Component({
   selector: 'app-test',
@@ -31,6 +34,7 @@ import { Quiz } from '../../common/models/quiz.model';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    ListeningComponent,
   ],
   providers: [QuizService, TestService],
   templateUrl: './test.component.html',
@@ -39,19 +43,22 @@ import { Quiz } from '../../common/models/quiz.model';
 export class TestComponent {
   @ViewChild('audioPlayer') audioPlayer!: ElementRef;
   audioUrl: string = '';
-  result: any = {
+  result: Result = {
+    id: '',
     name: '',
     timeout: null,
-    questions: [],
-    studentName: null,
+    studentName: '',
+    correctPoint: 0,
+    totalPoint: 0,
+    testDate: '',
+    quizId: '',
+    listeningParts: [],
   };
   quiz: Quiz = {
     id: '',
     name: '',
     timeout: null,
-    questions: [],
-    audioName: '',
-    parts: [],
+    listeningParts: [],
   };
   subscriptions: Subscription[] = [];
   mapQuestionById: Record<string, any> = {};
@@ -79,8 +86,6 @@ export class TestComponent {
           this.minutes = Math.floor(this.totalSeconds / 60);
           this.seconds = this.totalSeconds % 60;
           this.generateMapQuestion(quiz.questions);
-          this.getAudioFile(quiz.audioName);
-          console.log(this.quiz);
         });
       }
     });
@@ -113,10 +118,11 @@ export class TestComponent {
   }
 
   submit() {
-    this.result.questions = toArray(this.mapQuestionById);
+    this.result.id = CommonUtils.generateRandomId();
     this.result.testDate = this.getCurrentDate();
-    this.result.quizId = this.quiz.id;
     this.result.name = this.quiz.name;
+    this.result.quizId = this.quiz.id!;
+    this.result.listeningParts = this.quiz.listeningParts;
     this.calculatePoint();
     this.testService.submitTest(this.result).subscribe(() => {
       this.router.navigate(['']);
@@ -125,7 +131,7 @@ export class TestComponent {
 
   onStartTest() {
     this.isReady = true;
-    this.audioPlayer.nativeElement.play();
+    // this.audioPlayer.nativeElement.play();
     this.startTimer();
     setTimeout(() => {
       this.submit();
@@ -166,24 +172,26 @@ export class TestComponent {
   private calculatePoint() {
     let totalPoint = 0;
     let correctPoint = 0;
-    each(this.result.questions, (question) => {
-      if (question.type === 0) {
-        // Multiple choices
-        totalPoint++;
-        if (question.answer === question.correctAnswer) {
-          correctPoint++;
-        }
-      }
-
-      if (question.type === 1) {
-        // Short answer
-        each(question.choices, (choice) => {
+    each(this.result.listeningParts, (part) => {
+      each(part.questions, (question) => {
+        if (question.type === 0) {
+          // Multiple choices
           totalPoint++;
-          if (choice.answer === choice.content) {
+          if (question.answer === question.correctAnswer) {
             correctPoint++;
           }
-        });
-      }
+        }
+
+        if (question.type === 1) {
+          // Short answer
+          each(question.choices, (choice) => {
+            totalPoint++;
+            if (choice.answer === choice.content) {
+              correctPoint++;
+            }
+          });
+        }
+      });
     });
     this.result.totalPoint = totalPoint;
     this.result.correctPoint = correctPoint;

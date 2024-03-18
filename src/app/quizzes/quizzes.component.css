@@ -29,7 +29,8 @@
 
 .actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
+  margin-top: 16px;
 }
 
 .question {

@@ -4,18 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { FileService } from '../file.service';
-import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
-import { ShortAnswerComponent } from '../short-answer/short-answer.component';
-import { QuizService } from './quizzes.service';
-import { CommonUtils } from '../../utils/common-utils';
-import { MatIconModule } from '@angular/material/icon';
+import { Listening } from '../../common/models/listening.model';
 import { Quiz } from '../../common/models/quiz.model';
-import { Question } from '../../common/models/question.model';
+import { CommonUtils } from '../../utils/common-utils';
+import { FileService } from '../file.service';
+import { ListeningComponent } from '../listening/listening.component';
+import { QuizService } from './quizzes.service';
 
 @Component({
   selector: 'app-quizzes',
@@ -28,8 +27,7 @@ import { Question } from '../../common/models/question.model';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MultipleChoicesComponent,
-    ShortAnswerComponent,
+    ListeningComponent,
     MatIconModule,
   ],
   providers: [QuizService, FileService],
@@ -37,128 +35,43 @@ import { Question } from '../../common/models/question.model';
   styleUrl: './quizzes.component.css',
 })
 export class QuizzesComponent implements OnDestroy {
-  selectedFile: any;
   currentQuiz: Quiz = {
     id: '',
     name: '',
     timeout: 0,
-    questions: [],
-    audioName: '',
-    parts: [],
-  };
-  currentQuestion: Question = {
-    content: '',
-    type: null,
-    choices: [],
+    listeningParts: [],
   };
 
   subscription: Subscription[] = [];
 
   constructor(
     private quizService: QuizService,
-    private fileServie: FileService,
     private route: ActivatedRoute,
     private router: Router
   ) {
     this.route.paramMap.subscribe((paramMap: any) => {
       const quizId = paramMap.get('quizId');
       if (quizId) {
-        this.quizService.getById(quizId).subscribe((quiz: any) => {
+        const sub = this.quizService.getById(quizId).subscribe((quiz: any) => {
           this.currentQuiz = quiz;
         });
+        this.subscription.push(sub);
       }
     });
   }
 
-  ngOnDestroy(): void {
-    this.subscription.forEach((sub) => {
-      sub.unsubscribe();
-    });
-  }
-
-  addQuestion(questionType: number) {
-    switch (questionType) {
-      case 0:
-        this.currentQuestion = {
-          id: CommonUtils.generateRandomId(),
-          content: '',
-          type: questionType,
-          choices: this.defaultMultipleChoices(),
-        };
-        break;
-      case 1:
-        this.currentQuestion = {
-          id: CommonUtils.generateRandomId(),
-          content: '',
-          type: questionType,
-          choices: [],
-        };
-        break;
-      default:
-        break;
-    }
-    this.currentQuiz.questions.push({ ...this.currentQuestion });
-    this.currentQuiz = { ...this.currentQuiz };
-  }
-
-  defaultMultipleChoices() {
-    const choices = [];
-    for (let i = 0; i < 4; i++) {
-      const choice = {
-        id: CommonUtils.generateRandomId(),
-        content: '',
-      };
-      choices.push(choice);
-    }
-    return choices;
-  }
-
-  defaultShortAnswerChoices() {
-    const choices = [];
-    for (let i = 0; i < 4; i++) {
-      const choice = {
-        id: CommonUtils.generateRandomId(),
-        content: '',
-        index: '',
-      };
-      choices.push(choice);
-    }
-    return choices;
-  }
-
-  removeQuestion(index: number) {
-    this.currentQuiz.questions.splice(index, 1);
-  }
-
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0] ?? null;
+  onAddListeningPart() {
+    const newListeningPart: Listening = {
+      id: CommonUtils.generateRandomId(),
+      name: '',
+      questions: [],
+      audioName: '',
+    };
+    this.currentQuiz.listeningParts.push(newListeningPart);
   }
 
   onSaveClick() {
-    if (this.selectedFile) {
-      if (this.selectedFile.name !== this.currentQuiz.audioName) {
-        const deleteSub = this.fileServie
-          .deleteFile(this.currentQuiz.audioName)
-          .subscribe();
-        this.subscription.push(deleteSub);
-      }
-      this.uploadFile();
-    } else {
-      this.saveOrEditQuiz(this.currentQuiz);
-    }
-  }
-
-  uploadFile() {
-    const uploadSub = this.fileServie
-      .uploadAudioFile(this.selectedFile)
-      .subscribe((res) => {
-        this.subscription.push(uploadSub);
-        if (res) {
-          this.currentQuiz.audioName = res.fileName;
-          this.saveOrEditQuiz(this.currentQuiz);
-        }
-      });
-    this.subscription.push(uploadSub);
+    this.saveOrEditQuiz(this.currentQuiz);
   }
 
   saveOrEditQuiz(quiz: any) {
@@ -173,5 +86,11 @@ export class QuizzesComponent implements OnDestroy {
       this.router.navigate(['/']);
     });
     this.subscription.push(sub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 }

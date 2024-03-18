@@ -16,29 +16,6 @@
   </div>
 
   <div class="form-group">
-    <div class="upload-file">
-      <button
-        type="button"
-        mat-raised-button
-        (click)="fileInput.click()"
-        style="margin-right: 16px"
-      >
-        Audio File
-      </button>
-      <input
-        hidden
-        (change)="onFileSelected($event)"
-        #fileInput
-        type="file"
-        id="file"
-      />
-      <span class="file-name">{{
-        selectedFile ? selectedFile?.name : this.currentQuiz.audioName
-      }}</span>
-    </div>
-  </div>
-
-  <div class="form-group">
     <mat-form-field>
       <mat-label>Time</mat-label>
       <input
@@ -52,67 +29,20 @@
         required
       />
     </mat-form-field>
+
+    <div class="container">
+      @for (listeningPart of currentQuiz.listeningParts; track listeningPart.id) {
+      <app-listening [data]="listeningPart" [isEditting]="true"></app-listening>
+      }
+    </div>
+    <button mat-button color="primary" (click)="onAddListeningPart()">
+      <mat-icon>add</mat-icon> Add listening part
+    </button>
   </div>
 
-  <div class="question-group">
-    <mat-card
-      class="question"
-      *ngFor="let question of currentQuiz.questions; let i = index"
-    >
-      @switch (question.type) { @case(0) {
-
-      <div class="question">
-        <app-multiple-choices
-          [question]="question"
-          [isEditting]="true"
-        ></app-multiple-choices>
-        <div class="actions">
-          <button
-            mat-icon-button
-            color="warn"
-            type="button"
-            class="btn btn-danger"
-            (click)="removeQuestion(i)"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </div>
-
-      } @case(1) {
-      <div class="question">
-        <app-short-answer
-          [question]="question"
-          [isEditting]="true"
-        ></app-short-answer>
-        <button
-          mat-icon-button
-          color="warn"
-          type="button"
-          class="btn btn-danger"
-          (click)="removeQuestion(i)"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-      } }
-    </mat-card>
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="onSaveClick()">
+      Save and Quit
+    </button>
   </div>
-
-  <div class="question-type-container">
-    <mat-card class="card" (click)="addQuestion(0)">
-      <mat-card-content class="question-type-item">
-        Multiple Choices
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="card" (click)="addQuestion(1)">
-      <mat-card-content class="question-type-item">
-        Short Answer
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <button mat-raised-button color="primary" (click)="onSaveClick()">
-    Save and Quit
-  </button>
 </div>
