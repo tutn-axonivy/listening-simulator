@@ -1,21 +1,21 @@
 <form>
   <div class="question-group">
-    <div class="form-group">
-      @if (isEditting) {
-      <angular-editor
-        [name]="question.id"
-        [id]="question.id"
-        [config]="config"
-        [(ngModel)]="question.content"
-      ></angular-editor>
-      } @else {
-      <mat-card appearance="outlined">
+    <mat-card appearance="outlined">
+      <div class="form-group">
+        @if (isEditting) {
+        <angular-editor
+          [name]="question.id!"
+          [id]="question.id!"
+          [config]="config"
+          [(ngModel)]="question.content"
+        ></angular-editor>
+        } @else {
         <mat-card-content>
           <span [innerHTML]="question.content"></span>
         </mat-card-content>
-      </mat-card>
-      }
-    </div>
+        }
+      </div>
+    </mat-card>
 
     <div
       class="choice-group"
@@ -60,7 +60,7 @@
           <mat-label>Answer</mat-label>
           <input
             matInput
-            [name]="choice + i"
+            [name]="choice.id!"
             type="text"
             class="form-control"
             [(ngModel)]="choice.answer"
@@ -71,7 +71,7 @@
           <mat-label>Answer</mat-label>
           <input
             matInput
-            [name]="choice + i"
+            [name]="choice.id!"
             type="text"
             class="form-control"
             [(ngModel)]="choice.content"

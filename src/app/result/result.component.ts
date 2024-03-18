@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
 import { each } from 'lodash-es';
+import { Result } from '../../common/models/result.model';
 import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
 import { QuizService } from '../quizzes/quizzes.service';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
@@ -32,9 +33,14 @@ import { TestService } from '../test/test.service';
   styleUrl: './result.component.css',
 })
 export class ResultComponent {
-  result: any = {
+  result: Result = {
+    id: '',
+    name: '',
+    timeout: 0,
+    audioName: '',
     studentName: '',
     questions: [],
+    parts: [],
   };
 
   constructor(
@@ -58,18 +64,18 @@ export class ResultComponent {
     each(this.result.questions, (question) => {
       if (question.type === 0) {
         // Multiple choices
-        this.result.totalPoint++;
+        this.result.totalPoint!++;
         if (question.answer === question.correctAnswer) {
-          this.result.correctPoint++;
+          this.result.correctPoint!++;
         }
       }
 
       if (question.type === 1) {
         // Short answer
         each(question.choices, (choice) => {
-          this.result.totalPoint++;
+          this.result.totalPoint!++;
           if (choice.answer === choice.content) {
-            this.result.correctPoint++;
+            this.result.correctPoint!++;
           }
         });
       }

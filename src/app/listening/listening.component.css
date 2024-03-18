@@ -1,0 +1,44 @@
+.quiz {
+  height: 50px;
+  width: 100px;
+  text-align: center;
+  line-height: 50px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.question-type-container {
+  display: flex;
+  margin-top: 16px;
+}
+
+.question-group {
+  height: fit-content;
+}
+
+.card {
+  margin: 0 16px 16px 0;
+  cursor: pointer;
+}
+
+.question-type-item {
+  width: 120px;
+  text-align: center;
+  margin: 16px 0;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.question {
+  display: flex;
+  padding: 16px;
+  margin: 16px 0;
+  height: fit-content;
+}
+
+.upload-file {
+  margin: 0 0 16px 0;
+}

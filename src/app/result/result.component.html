@@ -4,9 +4,9 @@
       <h1>
         <b>{{ result.name }}</b>
       </h1>
-      <h4><b>Name:</b> {{ result.studentName }}</h4>
-      <h4><b>Point:</b> {{ result.correctPoint }}/{{ result.totalPoint }}</h4>
-      <h4><b>Test date:</b> {{ result.testDate }}</h4>
+      <h4><b>Name:</b> {{ result!.studentName }}</h4>
+      <h4><b>Point:</b> {{ result!.correctPoint }}/{{ result.totalPoint }}</h4>
+      <h4><b>Test date:</b> {{ result!.testDate }}</h4>
     </div>
 
     <div class="question-group">

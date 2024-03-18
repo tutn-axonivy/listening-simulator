@@ -15,6 +15,7 @@ import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { TestService } from './test.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
+import { Subscription, interval } from 'rxjs';
 
 @Component({
   selector: 'app-test',
@@ -43,13 +44,14 @@ export class TestComponent {
     questions: [],
     studentName: null,
   };
+  subscriptions: Subscription[] = [];
   quiz: any;
   mapQuestionById: Record<string, any> = {};
 
   minutes: number = 0;
   seconds: number = 0;
   totalSeconds: number = 0;
-  interval: any;
+  interval = {};
   isReady: boolean = false;
 
   constructor(
@@ -122,14 +124,15 @@ export class TestComponent {
   }
 
   startTimer() {
-    this.interval = setInterval(() => {
+    const sub = interval(1000).subscribe(() => {
       if (this.seconds === 0) {
         this.minutes--;
         this.seconds = 59;
       } else {
         this.seconds--;
       }
-    }, 1000);
+    });
+    this.subscriptions.push(sub);
   }
 
   onMultipleChoiceSelect(choiceId: string, questionId: string) {
@@ -178,6 +181,8 @@ export class TestComponent {
   }
 
   ngOnDestroy() {
-    clearInterval(this.interval);
+    each(this.subscriptions, (sub) => {
+      sub.unsubscribe();
+    });
   }
 }

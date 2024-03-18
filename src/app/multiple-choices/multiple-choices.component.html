@@ -4,7 +4,7 @@
       @if (isEditting) {
       <angular-editor
         name="questionContent"
-        [id]="question.id"
+        [id]="question.id!"
         [config]="config"
         [(ngModel)]="question.content"
       ></angular-editor>
@@ -44,7 +44,7 @@
             <input
               [disabled]="isReadOnly"
               matInput
-              [name]="choice + i"
+              [name]="choice.id!"
               type="text"
               class="form-control"
               [(ngModel)]="choice.content"

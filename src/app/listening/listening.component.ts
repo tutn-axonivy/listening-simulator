@@ -11,11 +11,9 @@ import { Subscription } from 'rxjs';
 import { FileService } from '../file.service';
 import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
-import { QuizService } from './quizzes.service';
 import { CommonUtils } from '../../utils/common-utils';
 import { MatIconModule } from '@angular/material/icon';
-import { Quiz } from '../../common/models/quiz.model';
-import { Question } from '../../common/models/question.model';
+import { ListeningService } from './listening.service';
 
 @Component({
   selector: 'app-quizzes',
@@ -32,22 +30,20 @@ import { Question } from '../../common/models/question.model';
     ShortAnswerComponent,
     MatIconModule,
   ],
-  providers: [QuizService, FileService],
-  templateUrl: './quizzes.component.html',
-  styleUrl: './quizzes.component.css',
+  providers: [ListeningService, FileService],
+  templateUrl: './listening.component.html',
+  styleUrl: './listening.component.css',
 })
-export class QuizzesComponent implements OnDestroy {
+export class ListeningComponent implements OnDestroy {
   selectedFile: any;
-  currentQuiz: Quiz = {
-    id: '',
+  currentQuiz: any = {
     name: '',
-    timeout: 0,
+    timeout: null,
     questions: [],
-    audioName: '',
-    parts: [],
   };
-  currentQuestion: Question = {
+  currentQuestion: any = {
     content: '',
+    description: '',
     type: null,
     choices: [],
   };
@@ -55,7 +51,7 @@ export class QuizzesComponent implements OnDestroy {
   subscription: Subscription[] = [];
 
   constructor(
-    private quizService: QuizService,
+    private listeningService: ListeningService,
     private fileServie: FileService,
     private route: ActivatedRoute,
     private router: Router
@@ -63,7 +59,7 @@ export class QuizzesComponent implements OnDestroy {
     this.route.paramMap.subscribe((paramMap: any) => {
       const quizId = paramMap.get('quizId');
       if (quizId) {
-        this.quizService.getById(quizId).subscribe((quiz: any) => {
+        this.listeningService.getById(quizId).subscribe((quiz: any) => {
           this.currentQuiz = quiz;
         });
       }
@@ -126,6 +122,14 @@ export class QuizzesComponent implements OnDestroy {
     return choices;
   }
 
+  saveQuestion() {
+    this.currentQuestion = {
+      name: '',
+      time: null,
+      choices: [],
+    };
+  }
+
   removeQuestion(index: number) {
     this.currentQuiz.questions.splice(index, 1);
   }
@@ -164,10 +168,10 @@ export class QuizzesComponent implements OnDestroy {
   saveOrEditQuiz(quiz: any) {
     let observer;
     if (quiz.id) {
-      observer = this.quizService.editQuiz(quiz);
+      observer = this.listeningService.editQuiz(quiz);
     } else {
       quiz.id = CommonUtils.generateRandomId();
-      observer = this.quizService.createQuiz(quiz);
+      observer = this.listeningService.createQuiz(quiz);
     }
     const sub = observer.subscribe(() => {
       this.router.navigate(['/']);
