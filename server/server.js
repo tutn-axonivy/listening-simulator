@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
 // Create an instance of Multer with the storage configuration
 const upload = multer({ storage: storage });
 
-server.use(express.static(`${__dirname}/dist`));
+server.use(express.static(`${__dirname}/dist/browser`));
 server.use(cors({ origin: "http://localhost:4200" }));
 server.use(express.json());
 
