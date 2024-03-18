@@ -2,7 +2,6 @@ const express = require("express");
 const jsonServer = require("json-server");
 const cors = require("cors");
 const server = express();
-const multipart = require("connect-multiparty");
 const path = require("path");
 const multer = require("multer");
 const fs = require("fs");
