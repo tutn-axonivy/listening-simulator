@@ -1,32 +1,30 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   QueryList,
   ViewChild,
-  ViewChildren,
+  ViewChildren
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
-import { each, toArray } from 'lodash-es';
-import { FileService } from '../file.service';
+import { each } from 'lodash-es';
+import { Subscription, interval } from 'rxjs';
+import { Quiz } from '../../common/models/quiz.model';
+import { Result } from '../../common/models/result.model';
+import { CommonUtils } from '../../utils/common-utils';
+import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
+import { ListeningComponent } from '../listening/listening.component';
 import { MultipleChoicesComponent } from '../multiple-choices/multiple-choices.component';
 import { QuizService } from '../quizzes/quizzes.service';
 import { ShortAnswerComponent } from '../short-answer/short-answer.component';
 import { TestService } from './test.service';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
-import { Subscription, interval } from 'rxjs';
-import { Quiz } from '../../common/models/quiz.model';
-import { ListeningComponent } from '../listening/listening.component';
-import { CommonUtils } from '../../utils/common-utils';
-import { Result } from '../../common/models/result.model';
 
 @Component({
   selector: 'app-test',
