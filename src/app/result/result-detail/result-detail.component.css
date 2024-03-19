@@ -1,25 +1,10 @@
-.container {
+.result-container {
   height: 100vh;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(10000, 120px);
   grid-gap: 16px; /* Optional: Add gap between grid items */
-}
-
-.result {
-  text-align: left;
-  cursor: pointer;
-}
-
-.search {
-  display: flex;
-  flex-direction: row-reverse;
-  margin-top: 16px;
-}
-
-.question {
-  margin-top: 16px;
 }
 
 .card {
@@ -29,7 +14,13 @@
   align-items: stretch;
 }
 
-.card-title {
+.search {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 16px;
+}
+
+.card-result-title {
   display: flex;
   margin: 0 0 0 10px;
   line-height: 24px;
@@ -39,16 +30,31 @@
   align-items: center;
 }
 
-.card-content {
+.card-result-content {
   cursor: pointer;
 }
 
-@media print {
-  button {
-    visibility: hidden;
-  }
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
+}
 
-  a[href]:after {
-    content: none !important;
-  }
+.question-group {
+  margin: 32px 0 0 0;
+}
+
+.card-content {
+  width: 100%;
+  height: 100%;
+}
+
+.card-content-text {
+  line-height: 32px;
+  height: 64px;
+}
+
+.result {
+  text-align: left;
+  cursor: pointer;
 }
